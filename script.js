@@ -9,7 +9,7 @@
 // @grant        none
 // ==/UserScript==
 
-(function() {
+(function () {
     'use strict';
     var blacklist = ['phrase1', 'phrase2', 'phrase3', 'phrase4', 'phrase5', 'phrase6']
     var enable = '✔️ Enable Script'
@@ -23,12 +23,12 @@
         var d1 = document.createElement('button');
         d1.innerHTML = e1.innerHTML;
         e1.parentNode.replaceChild(d1, e1);
-    document.getElementById('sharebuttons').children[0].href = ''
-    document.getElementById('sharebuttons').children[1].href = ''
-    document.getElementById('sharebuttons').children[0].innerText = disable
-    document.getElementById('sharebuttons').children[1].innerText = enable
-    document.getElementById('sharebuttons').children[0].onclick = function () {window.stopped = true; console.log('Disabled script!');};
-    document.getElementById('sharebuttons').children[1].onclick = function () {window.stopped = false; console.log('Enabled script!');};
+        document.getElementById('sharebuttons').children[0].href = ''
+        document.getElementById('sharebuttons').children[1].href = ''
+        document.getElementById('sharebuttons').children[0].innerText = disable
+        document.getElementById('sharebuttons').children[1].innerText = enable
+        document.getElementById('sharebuttons').children[0].onclick = function () { window.stopped = true; console.log('Disabled script!'); };
+        document.getElementById('sharebuttons').children[1].onclick = function () { window.stopped = false; console.log('Enabled script!'); };
     }
     function skip() {
         for (let i = 0; i < 3; i++) {
@@ -37,12 +37,12 @@
     }
     function verify(element) {
         var msg = element.children[1].innerText
-            console.log('Checking: ' + msg)
-            if (blacklist.indexOf(msg.toLowerCase()) >= 0) {
-                console.log('Blacklisted phrase detected! Skipping!')
-                skip()
-                window.stopped = false;
-            }
+        console.log('Checking: ' + msg)
+        if (blacklist.indexOf(msg.toLowerCase()) >= 0) {
+            console.log('Blacklisted phrase detected! Skipping!')
+            skip()
+            window.stopped = false;
+        }
     }
     function check() {
         if (window.stopped) {
@@ -53,6 +53,6 @@
             arr.forEach(element => verify(element))
         }
     }
-window.myInterval=setInterval(check, 1000);
-modifySocialButtons();
+    window.myInterval = setInterval(check, 1000);
+    modifySocialButtons();
 })();
