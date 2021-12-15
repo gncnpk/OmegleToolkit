@@ -1,2 +1,2 @@
 # OBPD
-Omegle Blacklisted Phrases Detection (OBPD)
+Omegle Blacklisted Phrases Detector (OBPD)
