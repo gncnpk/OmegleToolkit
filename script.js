@@ -48,10 +48,8 @@
         if (window.stopped) {
             return false;
         }
-        else {
-            var arr = Array.from(document.getElementsByClassName('strangermsg'));
-            arr.forEach(element => verify(element));
-        }
+        var arr = Array.from(document.getElementsByClassName('strangermsg'));
+        arr.forEach(element => verify(element));
     }
     window.myInterval = setInterval(check, 1000);
     modifySocialButtons();
