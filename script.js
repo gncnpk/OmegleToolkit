@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Omegle Blacklisted Phrase Detector
-// @namespace    https://github.com/Smooklu/OBPD
+// @name         Omegle Toolkit
+// @namespace    https://github.com/Smooklu/OmegleToolkit
 // @version      0.1
-// @description  Detects blacklisted phrases and auto-skips
+// @description  A toolkit designed to make your experience on Omegle safe and smooth.
 // @author       Smooklu
 // @match        https://www.omegle.com/
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
