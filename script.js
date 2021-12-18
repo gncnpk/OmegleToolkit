@@ -11,6 +11,8 @@
 
 (function () {
     'use strict';
+    // API Key for Simple Geo Location
+    var apiKey = "api-key-here";
     // IP Blacklist
     function AddToIPBlacklist() {
         let ip = localStorage.getItem('ip')
@@ -44,8 +46,6 @@
     link.rel = 'stylesheet';
     link.href = 'https://smooklu.github.io/OmegleToolkit/otk.css';
     head.appendChild(link);
-    // API Key for Simple Geo Location
-    let apiKey = "api-key-here";
     // Automatic Blacklist Updating
     var blacklist
     function getBlacklist() {
