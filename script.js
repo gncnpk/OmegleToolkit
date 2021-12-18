@@ -12,13 +12,11 @@
 (function () {
     'use strict';
     // Inject Custom Style Sheet
-    var head  = document.getElementsByTagName('head')[0];
-    var link  = document.createElement('link');
-    link.id   = cssId;
-    link.rel  = 'stylesheet';
+    var head = document.getElementsByTagName('head')[0];
+    var link = document.createElement('link');
     link.type = 'text/css';
-    link.href = 'https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/otk.css';
-    link.media = 'all';
+    link.rel = 'stylesheet';
+    link.href = 'https://smooklu.github.io/OmegleToolkit/otk.css';
     head.appendChild(link);
     // API Key for Simple Geo Location
     let apiKey = "api-key-here";
