@@ -17,7 +17,7 @@
     function AddToIPBlacklist() {
         let ip = localStorage.getItem('ip')
         if (ip == null || ip == '') {
-            return false;
+            console.log('No IP specified!')
         }
         else {
             var tbparsed = localStorage.getItem('blacklist');
@@ -36,7 +36,7 @@
         let ip = localStorage.getItem('ip')
         var ipblacklist = localStorage.getItem('blacklist')
         if (ipblacklist == '' || ipblacklist == null) {
-            ipblacklist = []
+            return false;
         }
         else {
             ipblacklist = JSON.parse(localStorage.getItem('blacklist'));
