@@ -2,6 +2,7 @@
     border: 2px black solid;
     border-radius: 5px;
     padding: 3px;
+    display: inline;
 }
 
 .disable {
@@ -15,12 +16,8 @@
 }
 
 .version {
-    border: 2px black solid;
     background-color: black;
     color: white;
-    display: inline;
-    border-radius: 5px;
-    padding: 3px;
 }
 
 .geoloc {

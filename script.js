@@ -76,9 +76,9 @@
         var d1 = document.createElement('button');
         d1.innerHTML = e1.innerHTML;
         e1.parentNode.replaceChild(d1, e1);
-        var version = document.createElement('p');
+        var version = document.createElement('button');
         version.innerText = "Omegle Toolkit v0.1"
-        version.className = "version"
+        version.className = "buttons version"
         document.getElementById('sharebuttons').children[0].href = ''
         document.getElementById('sharebuttons').children[1].href = ''
         document.getElementById('sharebuttons').children[0].innerText = disable
