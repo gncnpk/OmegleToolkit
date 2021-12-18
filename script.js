@@ -41,15 +41,12 @@
     }
     
     // Inject Custom Style Sheet
-    var head = document.getElementsByTagName('head')[0];
+    var head = document.head;
     var link = document.createElement('link');
     link.type = 'text/css';
     link.rel = 'stylesheet';
     link.href = 'https://smooklu.github.io/OmegleToolkit/otk.css';
     head.appendChild(link);
-
-    var stylesheet=document.createElement('style');
-    document.head
 
     // Automatic Blacklist Updating
     let response=await fetch('https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/blacklist.json');

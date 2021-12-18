@@ -10,9 +10,12 @@
 .geoloc {
     color: orange;
     vertical-align: middle;
+    display: inline;
+    padding-left: 5px;
 }
+
 .flag {
-    width: 20%;
-    height: 10%;
+    width: 10%;
+    height: 5%;
     vertical-align: middle;
 }
