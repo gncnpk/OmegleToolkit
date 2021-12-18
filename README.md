@@ -10,4 +10,4 @@ A toolkit designed to ensure a smooth and safe experience on Omegle.
 Please obtain a API key from https://ipgeolocation.io/ for this feature to work.
 
 ## To-Do
-
+* Brainstorm more ideas
