@@ -16,7 +16,7 @@
     // IP Blacklist
     function AddToIPBlacklist() {
         let ip = localStorage.getItem('ip')
-        if (ip == null) {
+        if (ip == null || ip == '') {
             return false;
         }
         else {
@@ -119,7 +119,7 @@
         document.getElementById('sharebuttons').children[0].onclick = function () { window.blackliststopped = true; console.log('Disabled blacklist!'); };
         document.getElementById('sharebuttons').children[1].onclick = function () { window.blackliststopped = false; console.log('Enabled blacklist!'); };
         addipb.onclick = function () { AddToIPBlacklist(); console.log(`Added ${localStorage.getItem('ip')} to the IP Blacklist!`) };
-        clearipb.onclick = function () { localStorage.setItem('blacklist', '') };
+        clearipb.onclick = function () { localStorage.setItem('blacklist', ''); localStorage.setItem('ip', ''); console.log('Cleared IP Blacklist!') };
         document.getElementById('sharebuttons').children[2].remove()
         var socialbuttons = document.getElementById('sharebuttons')
         socialbuttons.appendChild(addipb)
