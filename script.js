@@ -11,6 +11,15 @@
 
 (function () {
     'use strict';
+    // Inject Custom Style Sheet
+    var head  = document.getElementsByTagName('head')[0];
+    var link  = document.createElement('link');
+    link.id   = cssId;
+    link.rel  = 'stylesheet';
+    link.type = 'text/css';
+    link.href = 'https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/otk.css';
+    link.media = 'all';
+    head.appendChild(link);
     // API Key for Simple Geo Location
     let apiKey = "api-key-here";
     // Automatic Blacklist Updating
@@ -73,8 +82,8 @@
         document.getElementById('sharebuttons').children[1].href = ''
         document.getElementById('sharebuttons').children[0].innerText = disable
         document.getElementById('sharebuttons').children[1].innerText = enable
-        document.getElementById('sharebuttons').children[0].style = 'border-radius: 5px; background-color: red; color: white;'
-        document.getElementById('sharebuttons').children[1].style = 'border-radius: 5px; background-color: green; color: white;'
+        document.getElementById('sharebuttons').children[0].className = "buttons disable"
+        document.getElementById('sharebuttons').children[1].className = "buttons enable"
         document.getElementById('sharebuttons').children[0].onclick = function () { window.blackliststopped = true; console.log('Disabled blacklist!'); };
         document.getElementById('sharebuttons').children[1].onclick = function () { window.blackliststopped = false; console.log('Enabled blacklist!'); };
         document.getElementById('sharebuttons').children[2].remove()

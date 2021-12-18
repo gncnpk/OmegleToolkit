@@ -1,0 +1,13 @@
+.buttons {
+    border: 2px black solid;
+    border-radius: 5px;
+    padding: 3px;
+}
+.disable {
+    background-color: red;
+    color: white;
+}
+.enable {
+    background-color: green;
+    color: white;
+}
