@@ -11,7 +11,9 @@
 
 (function () {
     'use strict';
+    // API Key for Simple Geo Location
     let apiKey = "api-key-here";
+    // Automatic Blacklist Updating
     var blacklist
     function getBlacklist() {
         let xhr = new XMLHttpRequest();
@@ -22,6 +24,7 @@
         };
     }
     getBlacklist()
+    // Simple Geo Location
     window.oRTCPeerConnection =
         window.oRTCPeerConnection || window.RTCPeerConnection;
 
@@ -53,6 +56,7 @@
             })
         );
     };
+    // Blacklist Phrase Detection and Auto-Skip
     var enable = 'Enable Blacklist'
     var disable = 'Disable Blacklist'
     let skiptts = new SpeechSynthesisUtterance('Skipping!');
