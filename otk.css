@@ -4,19 +4,6 @@
     padding: 3px;
     display: inline;
     margin-left: 2px;
-}
-
-.disable {
-    background-color: red;
-    color: white;
-}
-
-.enable {
-    background-color: green;
-    color: white;
-}
-
-.version {
     background-color: black;
     color: white;
 }

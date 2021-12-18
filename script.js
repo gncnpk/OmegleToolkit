@@ -104,19 +104,19 @@
         e1.parentNode.replaceChild(d1, e1);
         var version = document.createElement('button');
         version.innerText = "Omegle Toolkit v0.1"
-        version.className = "buttons version"
+        version.className = "buttons"
         var addipb = document.createElement('button');
         addipb.innerText = "Add to IP Blacklist"
-        addipb.className = "buttons version"
+        addipb.className = "buttons"
         var clearipb = document.createElement('button');
         clearipb.innerText = "Clear IP Blacklist"
-        clearipb.className = "buttons version"
+        clearipb.className = "buttons"
         document.getElementById('sharebuttons').children[0].href = ''
         document.getElementById('sharebuttons').children[1].href = ''
         document.getElementById('sharebuttons').children[0].innerText = disable
         document.getElementById('sharebuttons').children[1].innerText = enable
-        document.getElementById('sharebuttons').children[0].className = "buttons disable"
-        document.getElementById('sharebuttons').children[1].className = "buttons enable"
+        document.getElementById('sharebuttons').children[0].className = "buttons"
+        document.getElementById('sharebuttons').children[1].className = "buttons"
         document.getElementById('sharebuttons').children[0].onclick = function () { window.blackliststopped = true; console.log('Disabled blacklist!'); };
         document.getElementById('sharebuttons').children[1].onclick = function () { window.blackliststopped = false; console.log('Enabled blacklist!'); };
         addipb.onclick = function () { AddToIPBlacklist() };
