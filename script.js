@@ -76,6 +76,9 @@
         var d1 = document.createElement('button');
         d1.innerHTML = e1.innerHTML;
         e1.parentNode.replaceChild(d1, e1);
+        var version = document.createElement('p');
+        version.innerText = "Omegle Toolkit v0.1"
+        version.className = "version"
         document.getElementById('sharebuttons').children[0].href = ''
         document.getElementById('sharebuttons').children[1].href = ''
         document.getElementById('sharebuttons').children[0].innerText = disable
@@ -85,6 +88,8 @@
         document.getElementById('sharebuttons').children[0].onclick = function () { window.blackliststopped = true; console.log('Disabled blacklist!'); };
         document.getElementById('sharebuttons').children[1].onclick = function () { window.blackliststopped = false; console.log('Enabled blacklist!'); };
         document.getElementById('sharebuttons').children[2].remove()
+        var socialbuttons = document.getElementById('sharebuttons')
+        socialbuttons.appendChild(version)
     }
     function skip() {
         for (let i = 0; i < 3; i++) {
@@ -121,4 +126,5 @@
     }
     window.myInterval = setInterval(check, 1000);
     modifySocialButtons();
+
 })();
