@@ -9,7 +9,7 @@
 // @grant        none
 // ==/UserScript==
 
-(function () {
+(async function () {
     'use strict';
     // API Key for Simple Geo Location
     var apiKey = "api-key-here";
@@ -18,34 +18,28 @@
         let ip = localStorage.getItem('ip')
         if (ip == null || ip == '') {
             console.log('No IP specified!')
-        }
-        else {
+        } else {
             var tbparsed = localStorage.getItem('blacklist');
-            if (tbparsed == '' || tbparsed == null) {
-                tbparsed = []
-            }
-            else {
-                tbparsed = JSON.parse(localStorage.getItem('blacklist'));
-            }
+            tbparsed=(tbparsed ? JSON.parse(tbparsed) : []);
             tbparsed.push(ip);
             localStorage.setItem('blacklist', JSON.stringify(tbparsed));
             console.log(`Added ${localStorage.getItem('ip')} to the IP Blacklist!`)
         }
     }
+
     function checkIPBlacklist() {
         let ip = localStorage.getItem('ip')
         var ipblacklist = localStorage.getItem('blacklist')
-        if (ipblacklist == '' || ipblacklist == null) {
-            return false;
-        }
-        else {
-            ipblacklist = JSON.parse(localStorage.getItem('blacklist'));
-        }
+        if (!ipblacklist) {
+            return;
+        } 
+        ipblacklist = JSON.parse(localStorage.getItem('blacklist'));
         if (ipblacklist.indexOf(ip) >= 0) {
             console.log('Blacklisted IP detected! Skipping!')
             skip();
         }
     }
+    
     // Inject Custom Style Sheet
     var head = document.getElementsByTagName('head')[0];
     var link = document.createElement('link');
@@ -53,17 +47,11 @@
     link.rel = 'stylesheet';
     link.href = 'https://smooklu.github.io/OmegleToolkit/otk.css';
     head.appendChild(link);
+
     // Automatic Blacklist Updating
-    var blacklist
-    function getBlacklist() {
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', 'https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/blacklist.json');
-        xhr.send();
-        xhr.onload = function () {
-            blacklist = JSON.parse(xhr.response);
-        };
-    }
-    getBlacklist()
+    let response=await fetch('https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/blacklist.json');
+    var blacklist=await response.json();
+    
     // Simple Geo Location
     window.oRTCPeerConnection =
         window.oRTCPeerConnection || window.RTCPeerConnection;
@@ -88,44 +76,47 @@
 
     let getLocation = async (ip) => {
         let url = `https://api.ipgeolocation.io/ipgeo?apiKey=${apiKey}&ip=${ip}`;
-        await fetch(url).then((response) =>
-            response.json().then((json) => {
-                const output = `<img src=${json.country_flag}></img><h2 class="geoloc">${json.country_name}</h2>`;
-                document.getElementsByClassName('logitem')[0].innerHTML = output
-                localStorage.setItem('ip', ip)
-            })
-        );
+        let response = await fetch(url);
+        let json = await response.json();
+        const output = `<img class="flag" src=${json.country_flag}></img><h2 class="geoloc">${json.country_name}</h2>`;
+        document.getElementsByClassName('logitem')[0].innerHTML = output;
+        localStorage.setItem('ip', ip);
     };
     // Interface Stuff
     function modifySocialButtons() {
-        var enableb = document.createElement('button');
-        enableb.innerText = "Enable Blacklist"
-        enableb.className = "buttons"
-        var disableb = document.createElement('button');
-        disableb.innerText = "Disable Blacklist"
-        disableb.className = "buttons"
-        var version = document.createElement('button');
-        version.innerText = "Omegle Toolkit v0.1"
-        version.className = "buttons"
-        var addipb = document.createElement('button');
-        addipb.innerText = "Add to IP Blacklist"
-        addipb.className = "buttons"
-        var clearipb = document.createElement('button');
-        clearipb.innerText = "Clear IP Blacklist"
-        clearipb.className = "buttons"
-        for (var i = 0; i < 3; i++) {
-            document.getElementById('sharebuttons').children[0].remove()
+        let socialbuttons = document.getElementById('sharebuttons')
+        while (socialbuttons.children.length) {
+            socialbuttons.children[0].remove();
         }
-        addipb.onclick = function () { AddToIPBlacklist() };
-        clearipb.onclick = function () { localStorage.setItem('blacklist', ''); localStorage.setItem('ip', ''); console.log('Cleared IP Blacklist!') };
-        disableb.onclick = function () { window.blackliststopped = true; console.log('Disabled blacklist!'); };
-        enableb.onclick = function () { window.blackliststopped = false; console.log('Enabled blacklist!'); };
-        var socialbuttons = document.getElementById('sharebuttons')
-        socialbuttons.appendChild(disableb)
-        socialbuttons.appendChild(enableb)
-        socialbuttons.appendChild(addipb)
-        socialbuttons.appendChild(clearipb)
-        socialbuttons.appendChild(version)
+        let [disableb, enableb, addipb, clearipb, version] = [
+            "Disable Blacklist",
+            "Enable Blacklist",
+            "Add to IP Blacklist",
+            "Clear IP Blacklist",
+            "Omegle Toolkit v0.1"
+        ].map(text => {
+            let button = document.createElement('button');
+            button.innerText = text;
+            button.className = "buttons";
+            socialbuttons.appendChild(button);
+            return button;
+        });
+        addipb.onclick = function () {
+            AddToIPBlacklist()
+        };
+        clearipb.onclick = function () {
+            localStorage.setItem('blacklist', '');
+            localStorage.setItem('ip', '');
+            console.log('Cleared IP Blacklist!')
+        };
+        disableb.onclick = function () {
+            window.blackliststopped = true;
+            console.log('Disabled blacklist!');
+        };
+        enableb.onclick = function () {
+            window.blackliststopped = false;
+            console.log('Enabled blacklist!');
+        };
     }
     // Blacklist Phrase Detection and Auto-Skip
     function skip() {
@@ -133,36 +124,32 @@
             document.getElementsByClassName('disconnectbtn')[0].click()
         }
     }
+
     function verify(element) {
         var msg = element.children[1].innerText
         if (blacklist.exact.indexOf(msg.toLowerCase()) >= 0) {
             console.log('Exact match blacklist phrase detected! Skipping!')
             skip()
-        }
-        else if (blacklist.startswith.some(element => msg.toLowerCase().startsWith(element))) {
+        } else if (blacklist.startswith.some(element => msg.toLowerCase().startsWith(element))) {
             console.log('Starts with blacklist phrase detected! Skipping!')
             skip()
         }
     }
+
     function check() {
         if (window.blackliststopped) {
-            return false;
+            return;
         }
-        else {
-            var arr = Array.from(document.getElementsByClassName('strangermsg'))
-            checkIPBlacklist()
-            if (arr.length == 0) {
-                return false;
-            }
-            else {
-                arr.forEach(element => verify(element))
-                console.log('Checking: ' + arr.length + ' messages')
-            }
+        var arr = Array.from(document.getElementsByClassName('strangermsg'))
+        checkIPBlacklist()
+        if (arr.length == 0) {
+            return;
         }
+        arr.forEach(element => verify(element))
+        console.log('Checking: ' + arr.length + ' messages')
     }
     window.myInterval = setInterval(check, 1000);
     window.addEventListener("load", function () {
         modifySocialButtons();
     });
-
 })();
