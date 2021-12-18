@@ -29,6 +29,7 @@
             }
             tbparsed.push(ip);
             localStorage.setItem('blacklist', JSON.stringify(tbparsed));
+            console.log(`Added ${localStorage.getItem('ip')} to the IP Blacklist!`)
         }
     }
     function checkIPBlacklist() {
@@ -118,7 +119,7 @@
         document.getElementById('sharebuttons').children[1].className = "buttons enable"
         document.getElementById('sharebuttons').children[0].onclick = function () { window.blackliststopped = true; console.log('Disabled blacklist!'); };
         document.getElementById('sharebuttons').children[1].onclick = function () { window.blackliststopped = false; console.log('Enabled blacklist!'); };
-        addipb.onclick = function () { AddToIPBlacklist(); console.log(`Added ${localStorage.getItem('ip')} to the IP Blacklist!`) };
+        addipb.onclick = function () { AddToIPBlacklist() };
         clearipb.onclick = function () { localStorage.setItem('blacklist', ''); localStorage.setItem('ip', ''); console.log('Cleared IP Blacklist!') };
         document.getElementById('sharebuttons').children[2].remove()
         var socialbuttons = document.getElementById('sharebuttons')
