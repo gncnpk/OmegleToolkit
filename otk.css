@@ -3,17 +3,25 @@
     border-radius: 5px;
     padding: 3px;
 }
+
 .disable {
     background-color: red;
     color: white;
 }
+
 .enable {
     background-color: green;
     color: white;
 }
+
 .version {
     border: 3px black solid;
     background-color: black;
     color: white;
+    display: inline;
+}
+
+.geoloc {
+    color: orange;
     display: inline-block;
 }

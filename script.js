@@ -58,7 +58,7 @@
 
         await fetch(url).then((response) =>
             response.json().then((json) => {
-                const output = `<img src=${json.country_flag}></img><h2 style="color: orange; display: inline-block;">${json.country_name}</h2>`;
+                const output = `<img src=${json.country_flag}></img><h2 class="geoloc">${json.country_name}</h2>`;
                 document.getElementsByClassName('logitem')[0].innerHTML = output
             })
         );
