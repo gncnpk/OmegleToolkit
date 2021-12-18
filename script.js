@@ -12,7 +12,7 @@
 (async function () {
     'use strict';
     // API Key for Simple Geo Location
-    var apiKey = "api-key-here";
+    var apikey = localStorage.getItem('apikey')
     // IP Blacklist
     function AddToIPBlacklist() {
         let ip = localStorage.getItem('ip')
@@ -20,7 +20,7 @@
             console.log('No IP specified!')
         } else {
             var tbparsed = localStorage.getItem('blacklist');
-            tbparsed=(tbparsed ? JSON.parse(tbparsed) : []);
+            tbparsed = (tbparsed ? JSON.parse(tbparsed) : []);
             tbparsed.push(ip);
             localStorage.setItem('blacklist', JSON.stringify(tbparsed));
             console.log(`Added ${localStorage.getItem('ip')} to the IP Blacklist!`)
@@ -32,26 +32,25 @@
         var ipblacklist = localStorage.getItem('blacklist')
         if (!ipblacklist) {
             return;
-        } 
+        }
         ipblacklist = JSON.parse(ipblacklist);
         if (ipblacklist.indexOf(ip) >= 0) {
             console.log('Blacklisted IP detected! Skipping!')
             skip();
         }
     }
-    
+
     // Inject Custom Style Sheet
-    var head = document.head;
     var link = document.createElement('link');
     link.type = 'text/css';
     link.rel = 'stylesheet';
     link.href = 'https://smooklu.github.io/OmegleToolkit/otk.css';
-    head.appendChild(link);
+    document.head.appendChild(link);
 
     // Automatic Blacklist Updating
-    let response=await fetch('https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/blacklist.json');
-    var blacklist=await response.json();
-    
+    let response = await fetch('https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/blacklist.json');
+    var blacklist = await response.json();
+
     // Simple Geo Location
     window.oRTCPeerConnection =
         window.oRTCPeerConnection || window.RTCPeerConnection;
@@ -75,10 +74,15 @@
     };
 
     let getLocation = async (ip) => {
-        let url = `https://api.ipgeolocation.io/ipgeo?apiKey=${apiKey}&ip=${ip}`;
-        let response = await fetch(url);
-        let json = await response.json();
-        const output = `<img class="flag" src=${json.country_flag}></img><h2 class="geoloc">${json.country_name}</h2>`;
+        let output;
+        if (apikey) {
+            let url = `https://api.ipgeolocation.io/ipgeo?apiKey=${apikey}&ip=${ip}`;
+            let response = await fetch(url);
+            let json = await response.json();
+            output = `<img class="flag" src=${json.country_flag}></img><h2 class="geoloc">${json.country_name}</h2>`;
+        } else {
+            output = 'idfk what country this is';
+        }
         document.getElementsByClassName('logitem')[0].innerHTML = output;
         localStorage.setItem('ip', ip);
     };
@@ -88,11 +92,12 @@
         while (socialbuttons.children.length) {
             socialbuttons.children[0].remove();
         }
-        let [disableb, enableb, addipb, clearipb, version] = [
+        let [disableb, enableb, addipb, clearipb, enterapi, version] = [
             "Disable Blacklist",
             "Enable Blacklist",
             "Add to IP Blacklist",
             "Clear IP Blacklist",
+            "Enter API Key",
             "Omegle Toolkit v0.1"
         ].map(text => {
             let button = document.createElement('button');
@@ -117,6 +122,11 @@
             window.blackliststopped = false;
             console.log('Enabled blacklist!');
         };
+        enterapi.onclick = function () {
+            let apikey = prompt('Enter API key from https://app.ipgeolocation.io/');
+            if (!apikey) {return;}
+            localStorage.setItem('apikey', apikey);
+        }
     }
     // Blacklist Phrase Detection and Auto-Skip
     function skip() {
