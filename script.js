@@ -11,6 +11,32 @@
 
 (function () {
     'use strict';
+    // IP Blacklist
+    function AddToIPBlacklist() {
+        let ip = localStorage.getItem('ip')
+        if (ip == null) {
+            return false;
+        }
+        else {
+            var tbparsed = localStorage.getItem('blacklist');
+            if (tbparsed == '' || tbparsed == null) {
+                tbparsed = []
+            }
+            else {
+                tbparsed = JSON.parse(localStorage.getItem('blacklist'));
+            }
+            tbparsed.push(ip);
+            localStorage.setItem('blacklist', JSON.stringify(tbparsed));
+        }
+    }
+    function checkIPBlacklist() {
+        let ip = localStorage.getItem('ip')
+        let ipblacklist = JSON.parse(localStorage.getItem('blacklist'))
+        if (ipblacklist.indexOf(ip) >= 0) {
+            console.log('Blacklisted IP detected! Skipping!')
+            skip();
+        }
+    }
     // Inject Custom Style Sheet
     var head = document.getElementsByTagName('head')[0];
     var link = document.createElement('link');
@@ -55,18 +81,17 @@
 
     let getLocation = async (ip) => {
         let url = `https://api.ipgeolocation.io/ipgeo?apiKey=${apiKey}&ip=${ip}`;
-
         await fetch(url).then((response) =>
             response.json().then((json) => {
                 const output = `<img src=${json.country_flag}></img><h2 class="geoloc">${json.country_name}</h2>`;
                 document.getElementsByClassName('logitem')[0].innerHTML = output
+                localStorage.setItem('ip', ip)
             })
         );
     };
-    // Blacklist Phrase Detection and Auto-Skip
+    // Interface Stuff
     var enable = 'Enable Blacklist'
     var disable = 'Disable Blacklist'
-    let skiptts = new SpeechSynthesisUtterance('Skipping!');
     function modifySocialButtons() {
         var e = document.getElementById('sharebuttons').children[0];
         var d = document.createElement('button');
@@ -79,6 +104,9 @@
         var version = document.createElement('button');
         version.innerText = "Omegle Toolkit v0.1"
         version.className = "buttons version"
+        var ipblacklist = document.createElement('button');
+        ipblacklist.innerText = "Add to IP Blacklist"
+        ipblacklist.className = "buttons version"
         document.getElementById('sharebuttons').children[0].href = ''
         document.getElementById('sharebuttons').children[1].href = ''
         document.getElementById('sharebuttons').children[0].innerText = disable
@@ -87,10 +115,13 @@
         document.getElementById('sharebuttons').children[1].className = "buttons enable"
         document.getElementById('sharebuttons').children[0].onclick = function () { window.blackliststopped = true; console.log('Disabled blacklist!'); };
         document.getElementById('sharebuttons').children[1].onclick = function () { window.blackliststopped = false; console.log('Enabled blacklist!'); };
+        ipblacklist.onclick = function () { AddToIPBlacklist(); console.log(`Added ${localStorage.getItem('ip')} to the IP Blacklist!`) };
         document.getElementById('sharebuttons').children[2].remove()
         var socialbuttons = document.getElementById('sharebuttons')
+        socialbuttons.appendChild(ipblacklist)
         socialbuttons.appendChild(version)
     }
+    // Blacklist Phrase Detection and Auto-Skip
     function skip() {
         for (let i = 0; i < 3; i++) {
             document.getElementsByClassName('disconnectbtn')[0].click()
@@ -99,13 +130,11 @@
     function verify(element) {
         var msg = element.children[1].innerText
         if (blacklist.exact.indexOf(msg.toLowerCase()) >= 0) {
-            console.log('Exact match blacklist phrase detected! Skipping! Phrase: ' + msg.toLowerCase())
-            //window.speechSynthesis.speak(skiptts);
+            console.log('Exact match blacklist phrase detected! Skipping!')
             skip()
         }
         else if (blacklist.startswith.some(element => msg.toLowerCase().startsWith(element))) {
-            console.log('Starts with blacklist phrase detected! Skipping! Phrase: ' + msg.toLowerCase())
-            //window.speechSynthesis.speak(skiptts);
+            console.log('Starts with blacklist phrase detected! Skipping!')
             skip()
         }
     }
@@ -122,6 +151,7 @@
                 arr.forEach(element => verify(element))
                 console.log('Checking: ' + arr.length + ' messages')
             }
+            checkIPBlacklist()
         }
     }
     window.myInterval = setInterval(check, 1000);
