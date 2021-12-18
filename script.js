@@ -91,17 +91,13 @@
         );
     };
     // Interface Stuff
-    var enable = 'Enable Blacklist'
-    var disable = 'Disable Blacklist'
     function modifySocialButtons() {
-        var e = document.getElementById('sharebuttons').children[0];
-        var d = document.createElement('button');
-        d.innerHTML = e.innerHTML;
-        e.parentNode.replaceChild(d, e);
-        var e1 = document.getElementById('sharebuttons').children[1];
-        var d1 = document.createElement('button');
-        d1.innerHTML = e1.innerHTML;
-        e1.parentNode.replaceChild(d1, e1);
+        var enableb = document.createElement('button');
+        enableb.innerText = "Enable Blacklist"
+        enableb.className = "buttons"
+        var disableb = document.createElement('button');
+        disableb.innerText = "Disable Blacklist"
+        disableb.className = "buttons"
         var version = document.createElement('button');
         version.innerText = "Omegle Toolkit v0.1"
         version.className = "buttons"
@@ -111,18 +107,16 @@
         var clearipb = document.createElement('button');
         clearipb.innerText = "Clear IP Blacklist"
         clearipb.className = "buttons"
-        document.getElementById('sharebuttons').children[0].href = ''
-        document.getElementById('sharebuttons').children[1].href = ''
-        document.getElementById('sharebuttons').children[0].innerText = disable
-        document.getElementById('sharebuttons').children[1].innerText = enable
-        document.getElementById('sharebuttons').children[0].className = "buttons"
-        document.getElementById('sharebuttons').children[1].className = "buttons"
-        document.getElementById('sharebuttons').children[0].onclick = function () { window.blackliststopped = true; console.log('Disabled blacklist!'); };
-        document.getElementById('sharebuttons').children[1].onclick = function () { window.blackliststopped = false; console.log('Enabled blacklist!'); };
+        for (var i = 0; i < 3; i++) {
+            document.getElementById('sharebuttons').children[0].remove()
+        }
         addipb.onclick = function () { AddToIPBlacklist() };
         clearipb.onclick = function () { localStorage.setItem('blacklist', ''); localStorage.setItem('ip', ''); console.log('Cleared IP Blacklist!') };
-        document.getElementById('sharebuttons').children[2].remove()
+        disableb.onclick = function () { window.blackliststopped = true; console.log('Disabled blacklist!'); };
+        enableb.onclick = function () { window.blackliststopped = false; console.log('Enabled blacklist!'); };
         var socialbuttons = document.getElementById('sharebuttons')
+        socialbuttons.appendChild(disableb)
+        socialbuttons.appendChild(enableb)
         socialbuttons.appendChild(addipb)
         socialbuttons.appendChild(clearipb)
         socialbuttons.appendChild(version)
@@ -161,6 +155,8 @@
         }
     }
     window.myInterval = setInterval(check, 1000);
-    modifySocialButtons();
+    window.addEventListener("load", function () {
+        modifySocialButtons();
+    });
 
 })();
