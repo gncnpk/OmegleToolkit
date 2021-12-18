@@ -34,7 +34,13 @@
     }
     function checkIPBlacklist() {
         let ip = localStorage.getItem('ip')
-        let ipblacklist = JSON.parse(localStorage.getItem('blacklist'))
+        var ipblacklist = localStorage.getItem('blacklist')
+        if (ipblacklist == '' || ipblacklist == null) {
+            ipblacklist = []
+        }
+        else {
+            ipblacklist = JSON.parse(localStorage.getItem('blacklist'));
+        }
         if (ipblacklist.indexOf(ip) >= 0) {
             console.log('Blacklisted IP detected! Skipping!')
             skip();
@@ -144,6 +150,7 @@
         }
         else {
             var arr = Array.from(document.getElementsByClassName('strangermsg'))
+            checkIPBlacklist()
             if (arr.length == 0) {
                 return false;
             }
@@ -151,7 +158,6 @@
                 arr.forEach(element => verify(element))
                 console.log('Checking: ' + arr.length + ' messages')
             }
-            checkIPBlacklist()
         }
     }
     window.myInterval = setInterval(check, 1000);
