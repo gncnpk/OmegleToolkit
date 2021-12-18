@@ -104,9 +104,12 @@
         var version = document.createElement('button');
         version.innerText = "Omegle Toolkit v0.1"
         version.className = "buttons version"
-        var ipblacklist = document.createElement('button');
-        ipblacklist.innerText = "Add to IP Blacklist"
-        ipblacklist.className = "buttons version"
+        var addipb = document.createElement('button');
+        addipb.innerText = "Add to IP Blacklist"
+        addipb.className = "buttons version"
+        var clearipb = document.createElement('button');
+        clearipb.innerText = "Clear IP Blacklist"
+        clearipb.className = "buttons version"
         document.getElementById('sharebuttons').children[0].href = ''
         document.getElementById('sharebuttons').children[1].href = ''
         document.getElementById('sharebuttons').children[0].innerText = disable
@@ -115,10 +118,12 @@
         document.getElementById('sharebuttons').children[1].className = "buttons enable"
         document.getElementById('sharebuttons').children[0].onclick = function () { window.blackliststopped = true; console.log('Disabled blacklist!'); };
         document.getElementById('sharebuttons').children[1].onclick = function () { window.blackliststopped = false; console.log('Enabled blacklist!'); };
-        ipblacklist.onclick = function () { AddToIPBlacklist(); console.log(`Added ${localStorage.getItem('ip')} to the IP Blacklist!`) };
+        addipb.onclick = function () { AddToIPBlacklist(); console.log(`Added ${localStorage.getItem('ip')} to the IP Blacklist!`) };
+        clearipb.onclick = function () { localStorage.setItem('blacklist', '') };
         document.getElementById('sharebuttons').children[2].remove()
         var socialbuttons = document.getElementById('sharebuttons')
-        socialbuttons.appendChild(ipblacklist)
+        socialbuttons.appendChild(addipb)
+        socialbuttons.appendChild(clearipb)
         socialbuttons.appendChild(version)
     }
     // Blacklist Phrase Detection and Auto-Skip
