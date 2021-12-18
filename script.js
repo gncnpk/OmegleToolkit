@@ -33,7 +33,7 @@
         if (!ipblacklist) {
             return;
         } 
-        ipblacklist = JSON.parse(localStorage.getItem('blacklist'));
+        ipblacklist = JSON.parse(ipblacklist);
         if (ipblacklist.indexOf(ip) >= 0) {
             console.log('Blacklisted IP detected! Skipping!')
             skip();
@@ -47,6 +47,9 @@
     link.rel = 'stylesheet';
     link.href = 'https://smooklu.github.io/OmegleToolkit/otk.css';
     head.appendChild(link);
+
+    var stylesheet=document.createElement('style');
+    document.head
 
     // Automatic Blacklist Updating
     let response=await fetch('https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/blacklist.json');
