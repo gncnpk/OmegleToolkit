@@ -12,52 +12,53 @@
 (async function () {
     'use strict';
     // API Key for Simple Geo Location
-    var apikey = localStorage.getItem('apikey')
+    var apikey = localStorage.getItem('apikey');
+    let ip;
+    let country;
+
     // IP Blacklist
     function AddToIPBlacklist() {
-        let ip = localStorage.getItem('ip')
-        if (ip == null || ip == '') {
+        if (!ip) {
             console.log('No IP specified!')
-        } else {
-            var tbparsed = localStorage.getItem('blacklist');
-            tbparsed = (tbparsed ? JSON.parse(tbparsed) : []);
-            tbparsed.push(ip);
-            localStorage.setItem('blacklist', JSON.stringify(tbparsed));
-            console.log(`Added ${localStorage.getItem('ip')} to the IP Blacklist!`)
         }
+        var tbparsed = localStorage.getItem('ipblacklist');
+        tbparsed = (tbparsed ? JSON.parse(tbparsed) : []);
+        tbparsed.push(ip);
+        localStorage.setItem('ipblacklist', JSON.stringify(tbparsed));
+        console.log(`Added ${ip} to the IP Blacklist!`)
     }
+
     function AddToCountryBlacklist() {
         let country = prompt('Enter country to be blacklisted:')
-        if (country == null || country == '') {
+        if (!country) {
             console.log('No country specified!')
-        } else {
-            var tbparsed = localStorage.getItem('cblacklist');
-            tbparsed = (tbparsed ? JSON.parse(tbparsed) : []);
-            tbparsed.push(country);
-            localStorage.setItem('cblacklist', JSON.stringify(tbparsed));
-            console.log(`Added ${country} to the Country Blacklist!`)
         }
+        var tbparsed = localStorage.getItem('cblacklist');
+        tbparsed = (tbparsed ? JSON.parse(tbparsed) : []);
+        tbparsed.push(country);
+        localStorage.setItem('cblacklist', JSON.stringify(tbparsed));
+        console.log(`Added ${country} to the Country Blacklist!`)
     }
+
     function checkIPBlacklist() {
-        let ip = localStorage.getItem('ip')
-        var ipblacklist = localStorage.getItem('blacklist')
+        var ipblacklist = localStorage.getItem('ipblacklist')
         if (!ipblacklist) {
             return;
         }
         ipblacklist = JSON.parse(ipblacklist);
-        if (ipblacklist.indexOf(ip) >= 0) {
+        if (ipblacklist.indexOf(ip) !== -1) {
             console.log('Blacklisted IP detected! Skipping!')
             skip();
         }
     }
+
     function checkCountryBlacklist() {
-        let country = localStorage.getItem('country')
         var cblacklist = localStorage.getItem('cblacklist')
         if (!cblacklist) {
             return;
         }
         cblacklist = JSON.parse(cblacklist);
-        if (cblacklist.indexOf(country) >= 0) {
+        if (cblacklist.indexOf(country) !== -1) {
             console.log('Blacklisted country detected! Skipping!')
             skip();
         }
@@ -86,33 +87,34 @@
             const fields = iceCandidate.candidate.split(" ");
 
             console.log(iceCandidate.candidate);
-            const ip = fields[4];
+            ip = fields[4];
             if (fields[7] === "srflx") {
-                getLocation(ip);
+                getLocation();
             }
             return pc.oaddIceCandidate(iceCandidate, ...rest);
         };
         return pc;
     };
 
-    let getLocation = async (ip) => {
+    let clogitem = document.getElementsByClassName('logitem');
+    let getLocation = async () => {
         let output;
-        localStorage.setItem('ip', ip);
         if (apikey) {
             let url = `https://api.ipgeolocation.io/ipgeo?apiKey=${apikey}&ip=${ip}`;
             let response = await fetch(url);
             let json = await response.json();
             output = `<img class="flag" src=${json.country_flag}></img><h2 class="geoloc">${json.country_name}</h2>`;
-            localStorage.setItem('country', json.country_name);
+            country=json.country_name;
         } else {
             output = 'idfk what country this is';
         }
-        document.getElementsByClassName('logitem')[0].innerHTML = output;
-        localStorage.setItem('ip', ip);
+        clogitem[0].innerHTML = output;
     };
     // Interface Stuff
     function modifySocialButtons() {
-        let socialbuttons = document.getElementById('sharebuttons')
+        let logbox = document.getElementsByClassName('logwrapper')
+        logbox.style = "top: 89px;margin-left: 584px;margin-right: 100px;"
+        let menu = document.createElement('menu')
         while (socialbuttons.children.length) {
             socialbuttons.children[0].remove();
         }
@@ -129,18 +131,18 @@
             let button = document.createElement('button');
             button.innerText = text;
             button.className = "buttons";
-            socialbuttons.appendChild(button);
+            menu.appendChild(button);
             return button;
         });
         addipb.onclick = function () {
             AddToIPBlacklist()
         };
         clearipb.onclick = function () {
-            localStorage.setItem('blacklist', '');
-            localStorage.setItem('ip', '');
+            localStorage.setItem('ipblacklist', '');
+            ip='';
             console.log('Cleared IP Blacklist!')
         };
-        disableb.onclick = function ()   {
+        disableb.onclick = function () {
             window.blackliststopped = true;
             console.log('Disabled blacklist!');
         };
@@ -150,7 +152,9 @@
         };
         enterapi.onclick = function () {
             let apikey = prompt('Enter API key from https://app.ipgeolocation.io/');
-            if (!apikey) {return;}
+            if (!apikey) {
+                return;
+            }
             localStorage.setItem('apikey', apikey);
         }
         addcblacklist.onclick = function () {
@@ -158,15 +162,20 @@
         }
         clearcblacklist.onclick = function () {
             localStorage.setItem('cblacklist', '');
-            localStorage.setItem('country', '');
+            country='';
             console.log('Cleared Country Blacklist!')
         };
+        logbox.appendChild(menu)
     }
+    menu.className = 'buttonmenu'
     // Blacklist Phrase Detection and Auto-Skip
+    let disconnectbtn = document.getElementsByClassName('disconnectbtn');
     function skip() {
         for (let i = 0; i < 3; i++) {
-            document.getElementsByClassName('disconnectbtn')[0].click()
+            disconnectbtn[0]?.click()
         }
+        ip = '';
+        country = '';
     }
 
     function verify(element) {
@@ -180,11 +189,12 @@
         }
     }
 
+    let strangermsg = document.getElementsByClassName('strangermsg');
     function check() {
         if (window.blackliststopped) {
             return;
         }
-        var arr = Array.from(document.getElementsByClassName('strangermsg'))
+        var arr = Array.from(strangermsg)
         checkIPBlacklist()
         checkCountryBlacklist()
         if (arr.length == 0) {
