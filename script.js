@@ -111,9 +111,14 @@
         clogitem[0].innerHTML = output;
     };
     // Interface Stuff
-    function modifySocialButtons() {
-        let logbox = document.getElementsByClassName('logwrapper')
-        logbox.style = "top: 89px;margin-left: 584px;margin-right: 100px;"
+    async function modifySocialButtons() {
+        let logbox_collection = document.getElementsByClassName('logwrapper');
+        while (!logbox_collection[0]) {
+            await new Promise(res=>setTimeout(res,50));
+        }
+        let logbox=logbox_collection[0];
+
+        let socialbuttons = document.getElementById('sharebuttons')
         let menu = document.createElement('menu')
         while (socialbuttons.children.length) {
             socialbuttons.children[0].remove();
@@ -165,9 +170,10 @@
             country='';
             console.log('Cleared Country Blacklist!')
         };
+        logbox.style = "top: 89px;margin-left: 584px;margin-right: 100px;"
+        menu.className = 'buttonmenu'
         logbox.appendChild(menu)
     }
-    menu.className = 'buttonmenu'
     // Blacklist Phrase Detection and Auto-Skip
     let disconnectbtn = document.getElementsByClassName('disconnectbtn');
     function skip() {
