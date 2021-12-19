@@ -26,7 +26,18 @@
             console.log(`Added ${localStorage.getItem('ip')} to the IP Blacklist!`)
         }
     }
-
+    function AddToCountryBlacklist() {
+        let country = prompt('Enter country to be blacklisted:')
+        if (country == null || country == '') {
+            console.log('No country specified!')
+        } else {
+            var tbparsed = localStorage.getItem('cblacklist');
+            tbparsed = (tbparsed ? JSON.parse(tbparsed) : []);
+            tbparsed.push(country);
+            localStorage.setItem('cblacklist', JSON.stringify(tbparsed));
+            console.log(`Added ${country} to the Country Blacklist!`)
+        }
+    }
     function checkIPBlacklist() {
         let ip = localStorage.getItem('ip')
         var ipblacklist = localStorage.getItem('blacklist')
@@ -39,7 +50,18 @@
             skip();
         }
     }
-
+    function checkCountryBlacklist() {
+        let country = localStorage.getItem('country')
+        var cblacklist = localStorage.getItem('cblacklist')
+        if (!cblacklist) {
+            return;
+        }
+        cblacklist = JSON.parse(cblacklist);
+        if (cblacklist.indexOf(country) >= 0) {
+            console.log('Blacklisted country detected! Skipping!')
+            skip();
+        }
+    }
     // Inject Custom Style Sheet
     var link = document.createElement('link');
     link.type = 'text/css';
@@ -75,11 +97,13 @@
 
     let getLocation = async (ip) => {
         let output;
+        localStorage.setItem('ip', ip);
         if (apikey) {
             let url = `https://api.ipgeolocation.io/ipgeo?apiKey=${apikey}&ip=${ip}`;
             let response = await fetch(url);
             let json = await response.json();
             output = `<img class="flag" src=${json.country_flag}></img><h2 class="geoloc">${json.country_name}</h2>`;
+            localStorage.setItem('country', json.country_name);
         } else {
             output = 'idfk what country this is';
         }
@@ -92,11 +116,13 @@
         while (socialbuttons.children.length) {
             socialbuttons.children[0].remove();
         }
-        let [disableb, enableb, addipb, clearipb, enterapi, version] = [
+        let [disableb, enableb, addipb, clearipb, addcblacklist, clearcblacklist, enterapi, version] = [
             "Disable Blacklist",
             "Enable Blacklist",
             "Add to IP Blacklist",
             "Clear IP Blacklist",
+            "Add Country to Blacklist",
+            "Clear Country Blacklist",
             "Enter API Key",
             "Omegle Toolkit v0.1"
         ].map(text => {
@@ -114,7 +140,7 @@
             localStorage.setItem('ip', '');
             console.log('Cleared IP Blacklist!')
         };
-        disableb.onclick = function () {
+        disableb.onclick = function ()   {
             window.blackliststopped = true;
             console.log('Disabled blacklist!');
         };
@@ -127,6 +153,14 @@
             if (!apikey) {return;}
             localStorage.setItem('apikey', apikey);
         }
+        addcblacklist.onclick = function () {
+            AddToCountryBlacklist()
+        }
+        clearcblacklist.onclick = function () {
+            localStorage.setItem('cblacklist', '');
+            localStorage.setItem('country', '');
+            console.log('Cleared Country Blacklist!')
+        };
     }
     // Blacklist Phrase Detection and Auto-Skip
     function skip() {
@@ -152,6 +186,7 @@
         }
         var arr = Array.from(document.getElementsByClassName('strangermsg'))
         checkIPBlacklist()
+        checkCountryBlacklist()
         if (arr.length == 0) {
             return;
         }
