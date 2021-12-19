@@ -170,7 +170,7 @@
             country='';
             console.log('Cleared Country Blacklist!')
         };
-        logbox.style = "top: 89px;margin-left: 584px;margin-right: 100px;"
+        logbox.style = "top: 89px;margin-left: 584px;margin-right: 175px;"
         menu.className = 'buttonmenu'
         logbox.appendChild(menu)
     }

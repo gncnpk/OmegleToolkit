@@ -1,9 +1,9 @@
 .buttons {
     border: 2px black solid;
-    padding: 3px;
-    margin-left: 4px;
+    display: block;
     background-color: black;
     color: white;
+    margin: 0 auto 5px;
 }
 
 .geoloc {
@@ -20,6 +20,6 @@
 }
 .buttonmenu {
     top: 0;
-    right: -100px;
+    right: -175px;
     position: absolute;
 }
