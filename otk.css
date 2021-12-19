@@ -4,8 +4,9 @@
     background-color: black;
     color: white;
     margin: 0 auto 5px;
+    width: 100%;
+    padding: 5px;
 }
-
 .geoloc {
     color: orange;
     vertical-align: middle;
@@ -19,7 +20,11 @@
     vertical-align: middle;
 }
 .buttonmenu {
-    top: 0;
-    right: -175px;
+    top: -15px;
+    right: -170px;
     position: absolute;
+    padding: 0;
+}
+.otk_version {
+    padding-top: 515px;
 }

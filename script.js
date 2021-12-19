@@ -104,7 +104,7 @@
             let response = await fetch(url);
             let json = await response.json();
             output = `<img class="flag" src=${json.country_flag}></img><h2 class="geoloc">${json.country_name}</h2>`;
-            country=json.country_name;
+            country = json.country_name;
         } else {
             output = 'idfk what country this is';
         }
@@ -114,9 +114,9 @@
     async function modifySocialButtons() {
         let logbox_collection = document.getElementsByClassName('logwrapper');
         while (!logbox_collection[0]) {
-            await new Promise(res=>setTimeout(res,50));
+            await new Promise(res => setTimeout(res, 50));
         }
-        let logbox=logbox_collection[0];
+        let logbox = logbox_collection[0];
 
         let socialbuttons = document.getElementById('sharebuttons')
         let menu = document.createElement('menu')
@@ -144,7 +144,7 @@
         };
         clearipb.onclick = function () {
             localStorage.setItem('ipblacklist', '');
-            ip='';
+            ip = '';
             console.log('Cleared IP Blacklist!')
         };
         disableb.onclick = function () {
@@ -162,14 +162,14 @@
             }
             localStorage.setItem('apikey', apikey);
         }
-        addcblacklist.onclick = function () {
-            AddToCountryBlacklist()
-        }
+        addcblacklist.onclick = AddToCountryBlacklist
         clearcblacklist.onclick = function () {
             localStorage.setItem('cblacklist', '');
-            country='';
+            country = '';
             console.log('Cleared Country Blacklist!')
         };
+        version.classList.add('otk_version');
+        logbox.appendChild(version);
         logbox.style = "top: 89px;margin-left: 584px;margin-right: 175px;"
         menu.className = 'buttonmenu'
         logbox.appendChild(menu)
