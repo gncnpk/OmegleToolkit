@@ -110,19 +110,30 @@
         }
         clogitem[0].innerHTML = output;
     };
-    // Interface Stuff
-    async function modifySocialButtons() {
-        let logbox_collection = document.getElementsByClassName('logwrapper');
-        while (!logbox_collection[0]) {
-            await new Promise(res => setTimeout(res, 50));
-        }
-        let logbox = logbox_collection[0];
 
+    // Interface Stuff
+    function deleteSocialButtons() {
         let socialbuttons = document.getElementById('sharebuttons')
-        let menu = document.createElement('menu')
         while (socialbuttons.children.length) {
             socialbuttons.children[0].remove();
         }
+    }
+    let logbox_collection = document.getElementsByClassName('logwrapper');
+    async function addInterface() {
+        while (!logbox_collection[0]) {
+            await new Promise(res => setTimeout(res, 50));
+        }
+        // Don't run if the menu already exists
+        if (document.querySelector('.buttonmenu')) { return; }
+        let logbox = logbox_collection[0];
+        let menu = document.createElement('menu')
+        menu.className = 'buttonmenu'
+        let [submenu1, submenu2, submenu3] = [0, 0, 0].map(() => {
+            let submenu = document.createElement('div');
+            menu.appendChild(submenu);
+            return submenu;
+        })
+
         let [disableb, enableb, addipb, clearipb, addcblacklist, clearcblacklist, enterapi, version] = [
             "Disable Blacklist",
             "Enable Blacklist",
@@ -136,12 +147,10 @@
             let button = document.createElement('button');
             button.innerText = text;
             button.className = "buttons";
-            menu.appendChild(button);
+            submenu1.appendChild(button);
             return button;
         });
-        addipb.onclick = function () {
-            AddToIPBlacklist()
-        };
+        addipb.onclick = AddToIPBlacklist;
         clearipb.onclick = function () {
             localStorage.setItem('ipblacklist', '');
             ip = '';
@@ -169,8 +178,7 @@
             console.log('Cleared Country Blacklist!')
         };
         version.classList.add('otk_version');
-        logbox.style = "top: 89px;margin-left: 584px;margin-right: 175px;"
-        menu.className = 'buttonmenu'
+        submenu3.appendChild(version);
         logbox.appendChild(menu)
     }
     // Blacklist Phrase Detection and Auto-Skip
@@ -196,6 +204,7 @@
 
     let strangermsg = document.getElementsByClassName('strangermsg');
     function check() {
+        addInterface();
         if (window.blackliststopped) {
             return;
         }
@@ -209,7 +218,5 @@
         console.log('Checking: ' + arr.length + ' messages')
     }
     window.myInterval = setInterval(check, 1000);
-    window.addEventListener("load", function () {
-        modifySocialButtons();
-    });
+    window.addEventListener("load", deleteSocialButtons);
 })();

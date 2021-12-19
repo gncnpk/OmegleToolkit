@@ -1,11 +1,5 @@
-.buttons {
-    border: 2px black solid;
-    display: block;
-    background-color: black;
-    color: white;
-    margin: 0 auto 5px;
-    width: 100%;
-    padding: 5px;
+.logwrapper {
+    margin-right: 175px !important;
 }
 .geoloc {
     color: orange;
@@ -13,18 +7,33 @@
     display: inline;
     padding-left: 5px;
 }
-
 .flag {
     width: 96px;
     height: 48px;
     vertical-align: middle;
 }
 .buttonmenu {
-    top: -15px;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    bottom: 0;
     right: -170px;
     position: absolute;
+    margin:0;
     padding: 0;
 }
+.buttonmenu > div:nth-child(2) {
+    flex-grow: 1;
+}
+.buttons {
+    border: 0;
+    display: block;
+    background-color: black;
+    color: white;
+    margin-bottom: 5px;
+    width: 100%;
+    padding: 7px;
+}
 .otk_version {
-    margin-top: 515px;
+    margin-bottom: 0;
 }
