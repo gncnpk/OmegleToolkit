@@ -12,36 +12,37 @@
 (async function () {
     'use strict';
     // Startup Vars
-    var apikey = localStorage.getItem('apikey');
-    let ip;
-    let country;
+    let apikey = localStorage.getItem('apikey');
+    let ip = '';
+    let country = '';
+    let blackliststopped = false;
 
     // IP and Country Blacklist
     function AddToIPBlacklist() {
         if (!ip) {
             console.log('No IP specified!');
         }
-        var tbparsed = localStorage.getItem('ipblacklist');
-        tbparsed = (tbparsed ? JSON.parse(tbparsed) : []);
+        let tbunparsed = localStorage.getItem('ipblacklist');
+        let tbparsed = (tbunparsed ? JSON.parse(tbunparsed) : []);
         tbparsed.push(ip);
         localStorage.setItem('ipblacklist', JSON.stringify(tbparsed));
         console.log(`Added ${ip} to the IP Blacklist!`);
     }
 
-    function AddToCountryBlacklist() {
+    function addToCountryBlacklist() {
         let country = prompt('Enter country to be blacklisted:');
         if (!country) {
             console.log('No country specified!');
         }
-        var tbparsed = localStorage.getItem('cblacklist');
-        tbparsed = (tbparsed ? JSON.parse(tbparsed) : []);
+        let tbunparsed = localStorage.getItem('cblacklist');
+        let tbparsed = (tbunparsed ? JSON.parse(tbunparsed) : []);
         tbparsed.push(country);
         localStorage.setItem('cblacklist', JSON.stringify(tbparsed));
         console.log(`Added ${country} to the Country Blacklist!`);
     }
 
     function checkIPBlacklist() {
-        var ipblacklist = localStorage.getItem('ipblacklist');
+        let ipblacklist = localStorage.getItem('ipblacklist');
         if (!ipblacklist) {
             return;
         }
@@ -53,7 +54,7 @@
     }
 
     function checkCountryBlacklist() {
-        var cblacklist = localStorage.getItem('cblacklist');
+        let cblacklist = localStorage.getItem('cblacklist');
         if (!cblacklist) {
             return;
         }
@@ -64,7 +65,7 @@
         }
     }
     // Inject Custom Style Sheet
-    var link = document.createElement('link');
+    let link = document.createElement('link');
     link.type = 'text/css';
     link.rel = 'stylesheet';
     link.href = 'https://smooklu.github.io/OmegleToolkit/otk.css';
@@ -72,7 +73,7 @@
 
     // Automatic Blacklist Updating
     let response = await fetch('https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/blacklist.json');
-    var blacklist = await response.json();
+    let blacklist = await response.json();
 
     // Simple Geo Location
     window.oRTCPeerConnection =
@@ -98,15 +99,13 @@
 
     let clogitem = document.getElementsByClassName('logitem');
     let getLocation = async () => {
-        let output;
+        let output = 'Unknown';
         if (apikey) {
             let url = `https://api.ipgeolocation.io/ipgeo?apiKey=${apikey}&ip=${ip}`;
             let response = await fetch(url);
             let json = await response.json();
             output = `<img class="flag" src=${json.country_flag}></img><h2 class="geoloc">${json.country_name}</h2>`;
             country = json.country_name;
-        } else {
-            output = 'Unknown';
         }
         clogitem[0].innerHTML = output;
     };
@@ -179,11 +178,11 @@
             console.log('Cleared IP Blacklist!');
         };
         disableb.onclick = function () {
-            window.blackliststopped = true;
+            blackliststopped = true;
             console.log('Disabled blacklist!');
         };
         enableb.onclick = function () {
-            window.blackliststopped = false;
+            blackliststopped = false;
             console.log('Enabled blacklist!');
         };
         enterapi.onclick = function () {
@@ -193,7 +192,7 @@
             }
             localStorage.setItem('apikey', apikey);
         }
-        addcblacklist.onclick = AddToCountryBlacklist;
+        addcblacklist.onclick = addToCountryBlacklist;
         clearcblacklist.onclick = function () {
             localStorage.setItem('cblacklist', '');
             country = '';
@@ -215,7 +214,7 @@
     }
 
     function verify(element) {
-        var msg = element.children[1].innerText;
+        let msg = element.children[1].innerText;
         if (blacklist.exact.indexOf(msg.toLowerCase()) >= 0) {
             console.log('Exact match blacklist phrase detected! Skipping!');
             skip();
@@ -229,10 +228,10 @@
     function check() {
         autoConfirmTerms();
         addInterface();
-        if (window.blackliststopped) {
+        if (blackliststopped) {
             return;
         }
-        var arr = Array.from(strangermsg);
+        let arr = Array.from(strangermsg);
         checkIPBlacklist();
         checkCountryBlacklist();
         if (arr.length == 0) {
