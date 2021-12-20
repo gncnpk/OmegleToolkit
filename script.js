@@ -143,7 +143,7 @@
         });
 
         let [pbcat, disableb, enableb, ipbcat, addipb, clearipb, cbcat, addcblacklist, clearcblacklist, misccat, enterapi, version] = [
-            "C*Phrase Blacklist",
+            "C*Blacklist Control",
             "Disable Blacklist",
             "Enable Blacklist",
             "C*IP Blacklist",
