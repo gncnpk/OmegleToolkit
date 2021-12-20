@@ -28,7 +28,7 @@
         console.log(`Added ${ip} to the IP Blacklist!`);
     }
 
-    function AddToCountryBlacklist() {
+    function addToCountryBlacklist() {
         let country = prompt('Enter country to be blacklisted:');
         if (!country) {
             console.log('No country specified!');
@@ -180,7 +180,7 @@
             }
             localStorage.setItem('apikey', apikey);
         }
-        addcblacklist.onclick = AddToCountryBlacklist;
+        addcblacklist.onclick = addToCountryBlacklist;
         clearcblacklist.onclick = function () {
             localStorage.setItem('cblacklist', '');
             country = '';
