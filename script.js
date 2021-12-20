@@ -143,21 +143,34 @@
             return submenu;
         });
 
-        let [disableb, enableb, addipb, clearipb, addcblacklist, clearcblacklist, enterapi, version] = [
+        let [pbcat, disableb, enableb, ipbcat, addipb, clearipb, cbcat, addcblacklist, clearcblacklist, misccat, enterapi, version] = [
+            "C*Phrase Blacklist",
             "Disable Blacklist",
             "Enable Blacklist",
+            "C*IP Blacklist",
             "Add to IP Blacklist",
             "Clear IP Blacklist",
+            "C*Country Blacklist",
             "Add Country to Blacklist",
             "Clear Country Blacklist",
+            "C*Miscellaneous",
             "Enter API Key",
             "Omegle Toolkit v0.1"
         ].map(text => {
-            let button = document.createElement('button');
-            button.innerText = text;
-            button.className = "buttons";
-            submenu1.appendChild(button);
-            return button;
+            if (text.startsWith('C*')) {
+                let catagory = document.createElement('p');
+                catagory.innerText = text.slice(2);
+                catagory.className = "catagory";
+                submenu1.appendChild(catagory);
+                return catagory;
+            }
+            else {
+                let button = document.createElement('button');
+                button.innerText = text;
+                button.className = "buttons";
+                submenu1.appendChild(button);
+                return button;
+            }
         });
         addipb.onclick = AddToIPBlacklist;
         clearipb.onclick = function () {
@@ -186,6 +199,7 @@
             country = '';
             console.log('Cleared Country Blacklist!');
         };
+
         version.classList.add('otk_version');
         submenu2.appendChild(version);
         logbox.appendChild(menu);

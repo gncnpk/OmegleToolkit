@@ -41,3 +41,11 @@
 .otk_version {
     margin-bottom: 0;
 }
+.catagory {
+    border: 0;
+    display: block;
+    color: black;
+    margin-bottom: 5px;
+    width: 100%;
+    padding: 7px;
+}
