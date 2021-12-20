@@ -13,8 +13,9 @@
     'use strict';
     // Startup Vars
     var apikey = localStorage.getItem('apikey');
-    let ip;
-    let country;
+    let ip = '';
+    let country = '';
+    let blackliststopped = false;
 
     // IP and Country Blacklist
     function AddToIPBlacklist() {
@@ -98,15 +99,13 @@
 
     let clogitem = document.getElementsByClassName('logitem');
     let getLocation = async () => {
-        let output;
+        let output = 'Unknown';
         if (apikey) {
             let url = `https://api.ipgeolocation.io/ipgeo?apiKey=${apikey}&ip=${ip}`;
             let response = await fetch(url);
             let json = await response.json();
             output = `<img class="flag" src=${json.country_flag}></img><h2 class="geoloc">${json.country_name}</h2>`;
             country = json.country_name;
-        } else {
-            output = 'Unknown';
         }
         clogitem[0].innerHTML = output;
     };
@@ -166,11 +165,11 @@
             console.log('Cleared IP Blacklist!');
         };
         disableb.onclick = function () {
-            window.blackliststopped = true;
+            blackliststopped = true;
             console.log('Disabled blacklist!');
         };
         enableb.onclick = function () {
-            window.blackliststopped = false;
+            blackliststopped = false;
             console.log('Enabled blacklist!');
         };
         enterapi.onclick = function () {
@@ -215,7 +214,7 @@
     function check() {
         autoConfirmTerms();
         addInterface();
-        if (window.blackliststopped) {
+        if (blackliststopped) {
             return;
         }
         var arr = Array.from(strangermsg);
