@@ -11,7 +11,7 @@
 
 (async function () {
     'use strict';
-    // Startup Vars  
+    // Startup Vars
     var apikey = localStorage.getItem('apikey');
     let ip;
     let country;
@@ -19,47 +19,47 @@
     // IP and Country Blacklist
     function AddToIPBlacklist() {
         if (!ip) {
-            console.log('No IP specified!')
+            console.log('No IP specified!');
         }
         var tbparsed = localStorage.getItem('ipblacklist');
         tbparsed = (tbparsed ? JSON.parse(tbparsed) : []);
         tbparsed.push(ip);
         localStorage.setItem('ipblacklist', JSON.stringify(tbparsed));
-        console.log(`Added ${ip} to the IP Blacklist!`)
+        console.log(`Added ${ip} to the IP Blacklist!`);
     }
 
     function AddToCountryBlacklist() {
-        let country = prompt('Enter country to be blacklisted:')
+        let country = prompt('Enter country to be blacklisted:');
         if (!country) {
-            console.log('No country specified!')
+            console.log('No country specified!');
         }
         var tbparsed = localStorage.getItem('cblacklist');
         tbparsed = (tbparsed ? JSON.parse(tbparsed) : []);
         tbparsed.push(country);
         localStorage.setItem('cblacklist', JSON.stringify(tbparsed));
-        console.log(`Added ${country} to the Country Blacklist!`)
+        console.log(`Added ${country} to the Country Blacklist!`);
     }
 
     function checkIPBlacklist() {
-        var ipblacklist = localStorage.getItem('ipblacklist')
+        var ipblacklist = localStorage.getItem('ipblacklist');
         if (!ipblacklist) {
             return;
         }
         ipblacklist = JSON.parse(ipblacklist);
         if (ipblacklist.indexOf(ip) !== -1) {
-            console.log('Blacklisted IP detected! Skipping!')
+            console.log('Blacklisted IP detected! Skipping!');
             skip();
         }
     }
 
     function checkCountryBlacklist() {
-        var cblacklist = localStorage.getItem('cblacklist')
+        var cblacklist = localStorage.getItem('cblacklist');
         if (!cblacklist) {
             return;
         }
         cblacklist = JSON.parse(cblacklist);
         if (cblacklist.indexOf(country) !== -1) {
-            console.log('Blacklisted country detected! Skipping!')
+            console.log('Blacklisted country detected! Skipping!');
             skip();
         }
     }
@@ -122,7 +122,7 @@
 
     // Interface Stuff
     function deleteSocialButtons() {
-        let socialbuttons = document.getElementById('sharebuttons')
+        let socialbuttons = document.getElementById('sharebuttons');
         while (socialbuttons.children.length) {
             socialbuttons.children[0].remove();
         }
@@ -135,13 +135,13 @@
         // Don't run if the menu already exists
         if (document.querySelector('.buttonmenu')) { return; }
         let logbox = logbox_collection[0];
-        let menu = document.createElement('menu')
-        menu.className = 'buttonmenu'
+        let menu = document.createElement('menu');
+        menu.className = 'buttonmenu';
         let [submenu1, submenu2] = [0, 0].map(() => {
             let submenu = document.createElement('div');
             menu.appendChild(submenu);
             return submenu;
-        })
+        });
 
         let [disableb, enableb, addipb, clearipb, addcblacklist, clearcblacklist, enterapi, version] = [
             "Disable Blacklist",
@@ -163,7 +163,7 @@
         clearipb.onclick = function () {
             localStorage.setItem('ipblacklist', '');
             ip = '';
-            console.log('Cleared IP Blacklist!')
+            console.log('Cleared IP Blacklist!');
         };
         disableb.onclick = function () {
             window.blackliststopped = true;
@@ -180,34 +180,34 @@
             }
             localStorage.setItem('apikey', apikey);
         }
-        addcblacklist.onclick = AddToCountryBlacklist
+        addcblacklist.onclick = AddToCountryBlacklist;
         clearcblacklist.onclick = function () {
             localStorage.setItem('cblacklist', '');
             country = '';
-            console.log('Cleared Country Blacklist!')
+            console.log('Cleared Country Blacklist!');
         };
         version.classList.add('otk_version');
         submenu2.appendChild(version);
-        logbox.appendChild(menu)
+        logbox.appendChild(menu);
     }
     // Blacklist Phrase Detection and Auto-Skip
     let disconnectbtn = document.getElementsByClassName('disconnectbtn');
     function skip() {
         for (let i = 0; i < 3; i++) {
-            disconnectbtn[0]?.click()
+            disconnectbtn[0]?.click();
         }
         ip = '';
         country = '';
     }
 
     function verify(element) {
-        var msg = element.children[1].innerText
+        var msg = element.children[1].innerText;
         if (blacklist.exact.indexOf(msg.toLowerCase()) >= 0) {
-            console.log('Exact match blacklist phrase detected! Skipping!')
-            skip()
+            console.log('Exact match blacklist phrase detected! Skipping!');
+            skip();
         } else if (blacklist.startswith.some(element => msg.toLowerCase().startsWith(element))) {
-            console.log('Starts with blacklist phrase detected! Skipping!')
-            skip()
+            console.log('Starts with blacklist phrase detected! Skipping!');
+            skip();
         }
     }
 
@@ -218,14 +218,14 @@
         if (window.blackliststopped) {
             return;
         }
-        var arr = Array.from(strangermsg)
-        checkIPBlacklist()
-        checkCountryBlacklist()
+        var arr = Array.from(strangermsg);
+        checkIPBlacklist();
+        checkCountryBlacklist();
         if (arr.length == 0) {
             return;
         }
-        arr.forEach(element => verify(element))
-        console.log('Checking: ' + arr.length + ' messages')
+        arr.forEach(element => verify(element));
+        console.log('Checking: ' + arr.length + ' messages');
     }
     window.myInterval = setInterval(check, 1000);
     window.addEventListener("load", deleteSocialButtons);
