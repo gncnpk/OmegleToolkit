@@ -34,6 +34,15 @@
     width: 100%;
     padding: 7px;
 }
+.buttons:hover {
+    border: 0;
+    display: block;
+    background-color: white;
+    color: black;
+    margin-bottom: 5px;
+    width: 100%;
+    padding: 7px;
+} 
 .otk_version {
     margin-bottom: 0;
 }
