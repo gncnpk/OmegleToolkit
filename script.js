@@ -111,6 +111,15 @@
         clogitem[0].innerHTML = output;
     };
 
+    function autoConfirmTerms() {
+        let confirm = document.querySelector('input[value="Confirm & continue"]');
+        if (!confirm) { return; }
+        let checkboxes = confirm.closest('div')
+            .querySelectorAll('input[type=checkbox]:not(:checked)');
+        for (let checkbox of checkboxes) { checkbox.click(); }
+        confirm.click();
+    }
+
     // Interface Stuff
     function deleteSocialButtons() {
         let socialbuttons = document.getElementById('sharebuttons')
@@ -204,6 +213,7 @@
 
     let strangermsg = document.getElementsByClassName('strangermsg');
     function check() {
+        autoConfirmTerms();
         addInterface();
         if (window.blackliststopped) {
             return;
