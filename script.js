@@ -22,8 +22,8 @@
         if (!ip) {
             console.log('No IP specified!');
         }
-        let tbparsed = localStorage.getItem('ipblacklist');
-        tbparsed = (tbparsed ? JSON.parse(tbparsed) : []);
+        let tbunparsed = localStorage.getItem('ipblacklist');
+        let tbparsed = (tbunparsed ? JSON.parse(tbunparsed) : []);
         tbparsed.push(ip);
         localStorage.setItem('ipblacklist', JSON.stringify(tbparsed));
         console.log(`Added ${ip} to the IP Blacklist!`);
@@ -34,8 +34,8 @@
         if (!country) {
             console.log('No country specified!');
         }
-        let tbparsed = localStorage.getItem('cblacklist');
-        tbparsed = (tbparsed ? JSON.parse(tbparsed) : []);
+        let tbunparsed = localStorage.getItem('cblacklist');
+        let tbparsed = (tbunparsed ? JSON.parse(tbunparsed) : []);
         tbparsed.push(country);
         localStorage.setItem('cblacklist', JSON.stringify(tbparsed));
         console.log(`Added ${country} to the Country Blacklist!`);
