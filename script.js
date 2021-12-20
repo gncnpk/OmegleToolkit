@@ -3,7 +3,7 @@
 // @namespace    https://github.com/Smooklu/OmegleToolkit
 // @version      0.1
 // @description  A toolkit designed to make your experience on Omegle safe and smooth.
-// @author       Smooklu
+// @author       Smooklu & Chinoto
 // @match        https://www.omegle.com/
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
