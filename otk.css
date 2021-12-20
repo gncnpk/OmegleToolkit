@@ -22,7 +22,7 @@
     margin:0;
     padding: 0;
 }
-.buttonmenu > div:nth-child(2) {
+.buttonmenu > div:nth-child(1) {
     flex-grow: 1;
 }
 .buttons {

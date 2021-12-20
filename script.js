@@ -128,7 +128,7 @@
         let logbox = logbox_collection[0];
         let menu = document.createElement('menu')
         menu.className = 'buttonmenu'
-        let [submenu1, submenu2, submenu3] = [0, 0, 0].map(() => {
+        let [submenu1, submenu2] = [0, 0].map(() => {
             let submenu = document.createElement('div');
             menu.appendChild(submenu);
             return submenu;
@@ -178,7 +178,7 @@
             console.log('Cleared Country Blacklist!')
         };
         version.classList.add('otk_version');
-        submenu3.appendChild(version);
+        submenu2.appendChild(version);
         logbox.appendChild(menu)
     }
     // Blacklist Phrase Detection and Auto-Skip
