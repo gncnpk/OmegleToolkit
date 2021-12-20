@@ -12,7 +12,7 @@
 (async function () {
     'use strict';
     // Startup Vars
-    var apikey = localStorage.getItem('apikey');
+    let apikey = localStorage.getItem('apikey');
     let ip = '';
     let country = '';
     let blackliststopped = false;
@@ -22,7 +22,7 @@
         if (!ip) {
             console.log('No IP specified!');
         }
-        var tbparsed = localStorage.getItem('ipblacklist');
+        let tbparsed = localStorage.getItem('ipblacklist');
         tbparsed = (tbparsed ? JSON.parse(tbparsed) : []);
         tbparsed.push(ip);
         localStorage.setItem('ipblacklist', JSON.stringify(tbparsed));
@@ -34,7 +34,7 @@
         if (!country) {
             console.log('No country specified!');
         }
-        var tbparsed = localStorage.getItem('cblacklist');
+        let tbparsed = localStorage.getItem('cblacklist');
         tbparsed = (tbparsed ? JSON.parse(tbparsed) : []);
         tbparsed.push(country);
         localStorage.setItem('cblacklist', JSON.stringify(tbparsed));
@@ -42,7 +42,7 @@
     }
 
     function checkIPBlacklist() {
-        var ipblacklist = localStorage.getItem('ipblacklist');
+        let ipblacklist = localStorage.getItem('ipblacklist');
         if (!ipblacklist) {
             return;
         }
@@ -54,7 +54,7 @@
     }
 
     function checkCountryBlacklist() {
-        var cblacklist = localStorage.getItem('cblacklist');
+        let cblacklist = localStorage.getItem('cblacklist');
         if (!cblacklist) {
             return;
         }
@@ -65,7 +65,7 @@
         }
     }
     // Inject Custom Style Sheet
-    var link = document.createElement('link');
+    let link = document.createElement('link');
     link.type = 'text/css';
     link.rel = 'stylesheet';
     link.href = 'https://smooklu.github.io/OmegleToolkit/otk.css';
@@ -73,7 +73,7 @@
 
     // Automatic Blacklist Updating
     let response = await fetch('https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/blacklist.json');
-    var blacklist = await response.json();
+    let blacklist = await response.json();
 
     // Simple Geo Location
     window.oRTCPeerConnection =
@@ -200,7 +200,7 @@
     }
 
     function verify(element) {
-        var msg = element.children[1].innerText;
+        let msg = element.children[1].innerText;
         if (blacklist.exact.indexOf(msg.toLowerCase()) >= 0) {
             console.log('Exact match blacklist phrase detected! Skipping!');
             skip();
@@ -217,7 +217,7 @@
         if (blackliststopped) {
             return;
         }
-        var arr = Array.from(strangermsg);
+        let arr = Array.from(strangermsg);
         checkIPBlacklist();
         checkCountryBlacklist();
         if (arr.length == 0) {
