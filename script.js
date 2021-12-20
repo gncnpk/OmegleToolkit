@@ -11,12 +11,12 @@
 
 (async function () {
     'use strict';
-    // API Key for Simple Geo Location
+    // Startup Vars  
     var apikey = localStorage.getItem('apikey');
     let ip;
     let country;
 
-    // IP Blacklist
+    // IP and Country Blacklist
     function AddToIPBlacklist() {
         if (!ip) {
             console.log('No IP specified!')
@@ -106,7 +106,7 @@
             output = `<img class="flag" src=${json.country_flag}></img><h2 class="geoloc">${json.country_name}</h2>`;
             country = json.country_name;
         } else {
-            output = 'idfk what country this is';
+            output = 'Unknown';
         }
         clogitem[0].innerHTML = output;
     };
