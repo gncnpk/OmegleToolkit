@@ -203,9 +203,11 @@
             console.log('Cleared Country Blacklist!');
         };
         turnoffgeo.onclick = function () {
+            console.log('Turned off Geolocation!')
             window.geoturnoff = true
         }
         turnongeo.onclick = function () {
+            console.log('Turned on Geolocation!')
             window.geoturnoff = false
         }
         version.classList.add('otk_version');
