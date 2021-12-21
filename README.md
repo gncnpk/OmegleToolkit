@@ -14,17 +14,4 @@ Please obtain a API key from https://ipgeolocation.io/ for geolocation features 
 * Brainstorm more ideas
 
 ## Install
-Install Tampermonkey (Chrome) or Greasemonkey (Firefox) and add a new script with the following contents.
-```js
-// ==UserScript==
-// @name         Omegle Toolkit
-// @namespace    https://github.com/Smooklu/OmegleToolkit
-// @version      0.1
-// @description  A toolkit designed to make your experience on Omegle safe and smooth.
-// @author       Smooklu & Chinoto
-// @match        https://www.omegle.com/
-// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
-// @grant        none
-// @require      https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/script.user.js
-// ==/UserScript==
-```
+Install Tampermonkey (Chrome) or Greasemonkey (Firefox) and click [here](https://github.com/Smooklu/OmegleToolkit/raw/main/script.user.js)
