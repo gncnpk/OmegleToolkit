@@ -99,13 +99,15 @@
 
     let clogitem = document.getElementsByClassName('logitem');
     let getLocation = async () => {
-        let output = 'Unknown';
+        let output = `<h2 class="geoloc">Unknown</h2>`;
         if (apikey) {
-            let url = `https://api.ipgeolocation.io/ipgeo?apiKey=${apikey}&ip=${ip}`;
-            let response = await fetch(url);
-            let json = await response.json();
-            output = `<img class="flag" src=${json.country_flag}></img><h2 class="geoloc">${json.country_name}</h2>`;
-            country = json.country_name;
+            if (!window.geoturnoff) {
+                let url = `https://api.ipgeolocation.io/ipgeo?apiKey=${apikey}&ip=${ip}`;
+                let response = await fetch(url);
+                let json = await response.json();
+                output = `<img class="flag" src=${json.country_flag}></img><h2 class="geoloc">${json.country_name}</h2>`;
+                country = json.country_name;
+            }
         }
         clogitem[0].innerHTML = output;
     };
@@ -142,7 +144,7 @@
             return submenu;
         });
 
-        let [pbcat, disableb, enableb, ipbcat, addipb, clearipb, cbcat, addcblacklist, clearcblacklist, misccat, enterapi, version] = [
+        let [pbcat, disableb, enableb, ipbcat, addipb, clearipb, cbcat, addcblacklist, clearcblacklist, misccat, enterapi, turnoffgeo, turnongeo, version] = [
             "C*Blacklist Control",
             "Disable Blacklist",
             "Enable Blacklist",
@@ -154,6 +156,8 @@
             "Clear Country Blacklist",
             "C*Miscellaneous",
             "Enter API Key",
+            "Turn Off Geolocation",
+            "Turn On Geolocation",
             "Omegle Toolkit v0.1"
         ].map(text => {
             if (text.startsWith('C*')) {
@@ -198,7 +202,12 @@
             country = '';
             console.log('Cleared Country Blacklist!');
         };
-
+        turnoffgeo.onclick = function () {
+            window.geoturnoff = true
+        }
+        turnongeo.onclick = function () {
+            window.geoturnoff = false
+        }
         version.classList.add('otk_version');
         submenu2.appendChild(version);
         logbox.appendChild(menu);
