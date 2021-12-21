@@ -25,6 +25,6 @@ Install Tampermonkey (Chrome) or Greasemonkey (Firefox) and add a new script wit
 // @match        https://www.omegle.com/
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
-// @require      https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/script.js
+// @require      https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/script.user.js
 // ==/UserScript==
 ```
