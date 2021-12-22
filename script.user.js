@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Omegle Toolkit
 // @namespace    https://github.com/Smooklu/OmegleToolkit
-// @version      1.01
+// @version      1.02
 // @description  A toolkit designed to make your experience on Omegle safe and smooth.
 // @author       Smooklu & Chinoto
 // @match        https://www.omegle.com/
@@ -17,6 +17,7 @@
     let country = '';
     let blackliststopped = false;
     let geoturnoff = false;
+    let version_number = '1.02';
 
     // IP and Country Blacklist
     function addToIPBlacklist() {
@@ -177,7 +178,7 @@
             "Enter API Key",
             "Turn Off Geolocation",
             "Turn On Geolocation",
-            "Omegle Toolkit v1.01"
+            `Omegle Toolkit v${version_number}`
         ].map(text => {
             if (text.startsWith('C*')) {
                 let category = document.createElement('p');
