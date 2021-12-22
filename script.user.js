@@ -19,7 +19,7 @@
     let geoturnoff = false;
 
     // IP and Country Blacklist
-    function AddToIPBlacklist() {
+    function addToIPBlacklist() {
         if (!ip) {
             console.log('No IP specified!');
             return;
@@ -194,7 +194,7 @@
                 return button;
             }
         });
-        addipb.onclick = AddToIPBlacklist;
+        addipb.onclick = addToIPBlacklist;
         clearipb.onclick = function () {
             localStorage.setItem('ipblacklist', '');
             ip = '';
