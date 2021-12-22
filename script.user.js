@@ -145,12 +145,7 @@
         });
         if (!socialbuttons.children.length) {
             var blackliststatus = document.createElement('p')
-        }
-        if (!blackliststopped) {
             blackliststatus.innerText = 'Blacklist: Enabled'
-        }
-        else {
-            blackliststatus.innerText = 'Blacklist: Disabled'
         }
         let [pbcat, disableb, enableb, ipbcat, addipb, clearipb, cbcat, addcblacklist, clearcblacklist, misccat, enterapi, turnoffgeo, turnongeo, version] = [
             "C*Blacklist Control",
