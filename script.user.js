@@ -287,7 +287,7 @@
             return;
         }
         arr.forEach(element => verify(element));
-        console.log('Checking: ' + arr.length + ' messages');
+        console.log('Checking: ' + arr.length + " messages")
     }
     window.myInterval = setInterval(check, 1000);
     window.addEventListener("load", deleteSocialButtons);
