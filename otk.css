@@ -1,5 +1,12 @@
 .logwrapper {
     margin-right: 175px !important;
+    border-radius: 0px;
+}
+.disconnectbtnwrapper {
+    border-radius: 0px;
+}
+.sendbtnwrapper {
+    border-radius: 0px;
 }
 .geoloc {
     color: orange;
