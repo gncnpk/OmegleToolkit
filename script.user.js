@@ -221,7 +221,7 @@
         version.classList.add('otk_version');
         submenu2.appendChild(version);
         logbox.appendChild(menu);
-        socialbuttons.appendChild(socialbuttons)
+        socialbuttons.appendChild(blackliststatus)
     }
     // Blacklist Phrase Detection and Auto-Skip
     let disconnectbtn = document.getElementsByClassName('disconnectbtn');
