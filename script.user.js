@@ -143,7 +143,9 @@
             menu.appendChild(submenu);
             return submenu;
         });
-        var blackliststatus = document.createElement('p')
+        if (!socialbuttons.children.length {
+            var blackliststatus = document.createElement('p')
+        }
         if (!blackliststopped) {
             blackliststatus.innerText = 'Blacklist: Enabled'
         }
