@@ -16,6 +16,7 @@
     let ip = '';
     let country = '';
     let blackliststopped = false;
+    let geoturnoff = false;
 
     // IP and Country Blacklist
     function AddToIPBlacklist() {
@@ -105,7 +106,7 @@
     let getLocation = async () => {
         let output = `<h2 class="geoloc">Unknown</h2>`;
         if (apikey) {
-            if (!window.geoturnoff) {
+            if (!geoturnoff) {
                 let url = `https://api.ipgeolocation.io/ipgeo?apiKey=${apikey}&ip=${ip}`;
                 let response = await fetch(url);
                 let json = await response.json();
@@ -233,13 +234,13 @@
             console.log('Turned off Geolocation!')
             socialbuttons.children[1].innerText = "Geolocation: Off "
             socialbuttons.children[1].className = 'geolocset off'
-            window.geoturnoff = true
+            geoturnoff = true
         }
         turnongeo.onclick = function () {
             console.log('Turned on Geolocation!')
             socialbuttons.children[1].innerText = "Geolocation: On "
             socialbuttons.children[1].className = 'geolocset on'
-            window.geoturnoff = false
+            geoturnoff = false
         }
         version.classList.add('otk_version');
         submenu2.appendChild(version);
