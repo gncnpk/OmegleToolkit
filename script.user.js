@@ -147,6 +147,7 @@
         if (!socialbuttons.children.length) {
             var blackliststatus = document.createElement('p')
             blackliststatus.innerText = 'Blacklist: Enabled'
+            blackliststatus.className = 'blackliststatus enabled'
         }
         let [pbcat, disableb, enableb, ipbcat, addipb, clearipb, cbcat, addcblacklist, clearcblacklist, misccat, enterapi, turnoffgeo, turnongeo, version] = [
             "C*Blacklist Control",
@@ -189,11 +190,13 @@
             blackliststopped = true;
             console.log('Disabled blacklist!');
             socialbuttons.children[0].innerText = "Blacklist: Disabled"
+            socialbuttons.children[0].className = 'blackliststatus disabled'
         };
         enableb.onclick = function () {
             blackliststopped = false;
             console.log('Enabled blacklist!');
             socialbuttons.children[0].innerText = "Blacklist: Enabled"
+            socialbuttons.children[0].className = 'blackliststatus enabled'
         };
         enterapi.onclick = function () {
             let apikey = prompt('Enter API key from https://app.ipgeolocation.io/');
