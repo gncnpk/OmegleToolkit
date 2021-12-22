@@ -45,17 +45,18 @@
     top: -.5em !important
     
 }
-.blackliststatus .enabled {
+.blackliststatus {
+    font-weight: bold;
+}
+.blackliststatus.enabled {
     background: linear-gradient(to right, black 0%, black 50%, green 50%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-weight: bold;
 }
-.blackliststatus .disabled {
+.blackliststatus.disabled {
     background: linear-gradient(to right, black 0%, black 50%, red 50%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-weight: bold;
 }
 
 .catagory {
