@@ -105,14 +105,12 @@
     let clogitem = document.getElementsByClassName('logitem');
     let getLocation = async () => {
         let output = `<h2 class="geoloc">Unknown</h2>`;
-        if (apikey) {
-            if (!geoturnoff) {
-                let url = `https://api.ipgeolocation.io/ipgeo?apiKey=${apikey}&ip=${ip}`;
-                let response = await fetch(url);
-                let json = await response.json();
-                output = `<img class="flag" src=${json.country_flag}></img><h2 class="geoloc">${json.country_name}</h2>`;
-                country = json.country_name;
-            }
+        if (apikey && !geoturnoff) {
+            let url = `https://api.ipgeolocation.io/ipgeo?apiKey=${apikey}&ip=${ip}`;
+            let response = await fetch(url);
+            let json = await response.json();
+            output = `<img class="flag" src=${json.country_flag}></img><h2 class="geoloc">${json.country_name}</h2>`;
+            country = json.country_name;
         }
         clogitem[0].innerHTML = output;
     };
