@@ -14,7 +14,7 @@ Please obtain a API key from https://ipgeolocation.io/ and enter the API key on 
 * Brainstorm more ideas
 
 ## Install
-Install [Tampermonkey](https://www.tampermonkey.net/) (Chrome) or [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) (Firefox) and click [here](https://github.com/Smooklu/OmegleToolkit/raw/main/script.user.js) to install Omegle Toolkit.
+Install [Tampermonkey](https://www.tampermonkey.net/) and click [here](https://github.com/Smooklu/OmegleToolkit/raw/main/script.user.js) to install Omegle Toolkit.
 
 ## Browser Compatibility Table
 |Browser|Version|Working|Notes|
