@@ -80,6 +80,7 @@
     // Automatic Blacklist Updating
     let response = await fetch('https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/blacklist.json');
     let blacklist = await response.json();
+    blacklist.regex = blacklist.regex.map(x => new RegExp(x));
 
     // Simple Geo Location
     window.oRTCPeerConnection =
@@ -263,6 +264,8 @@
             console.log('Starts with blacklist phrase detected! Skipping!');
         } else if (blacklist.includes.some(element => msg.includes(element))) {
             console.log('Includes blacklist phrase detected! Skipping!');
+        } else if (blacklist.regex.some(element => element.test(msg))) {
+            console.log('Regex blacklist phrase detected! Skipping!');
         } else {
             return;
         }

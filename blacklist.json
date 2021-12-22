@@ -1,45 +1,26 @@
 {
     "exact": [
-        "m",
-        "hey m",
-        "m 17",
-        "m horny",
-        "hi m",
-        "fenyaderon",
-        "fenianorem",
         "felaniabran",
-        "hi m here",
+        "fenianorem",
+        "fenyaderon",
         "hii..",
-        "hi m 24",
         "male looking for a freaky girl on snap",
-        "would you f*ck my petite body?",
-        "you dick is big? can u show me?",
-        "hii 17m",
-        "21 m",
-        "m17 hbu?",
-        "m 27 (:",
-        "m16, hey",
-        "m17",
-        "m13",
         "quick dm me on insta @bffa66y for pics ;) f18",
-        "f",
-        "f 18",
-        "m30",
-        "f 29",
-        "30m",
-        "f 19",
-        "would you f*ck my hot wet body? 🔞💦",
-        "m or f",
-        "f 25"
+        "you dick is big? can u show me?"
+    ],
+    "regex": [
+        "^((hii?|hey)\\.* )?[mf] ?\\d*\\b",
+        "^\\d+ ?[mf]\\b"
     ],
     "startswith": [
-        "wanna chat? 😋",
+        "hi.. 😉",
         "only men here on cam?",
-        "hi.. 😉"
+        "wanna chat? 😋"
     ],
     "includes": [
         "add me on k1k app",
+        "ethr.pro",
         "risingstargame.com",
-        "ethr.pro"
+        "would you f*ck"
     ]
 }
