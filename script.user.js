@@ -256,21 +256,18 @@
     }
 
     function verify(element) {
-        let msg = element.children[1].innerText;
-        if (blacklist.exact.indexOf(msg.toLowerCase()) >= 0) {
+        let msg = element.children[1].innerText.toLowerCase();
+        if (blacklist.exact.indexOf(msg) >= 0) {
             console.log('Exact match blacklist phrase detected! Skipping!');
-            socialbuttons.children[2].innerText = 'Last Action: Phrase Blacklist Skip'
-            skip();
-        } else if (blacklist.startswith.some(element => msg.toLowerCase().startsWith(element))) {
+        } else if (blacklist.startswith.some(element => msg.startsWith(element))) {
             console.log('Starts with blacklist phrase detected! Skipping!');
-            socialbuttons.children[2].innerText = 'Last Action: Phrase Blacklist Skip'
-            skip();
-        } else if (blacklist.includes.some(element => msg.toLowerCase().includes(element))) {
+        } else if (blacklist.includes.some(element => msg.includes(element))) {
             console.log('Includes blacklist phrase detected! Skipping!');
-            socialbuttons.children[2].innerText = 'Last Action: Phrase Blacklist Skip'
-            skip();
+        } else {
+            return;
         }
-
+        socialbuttons.children[2].innerText = 'Last Action: Phrase Blacklist Skip'
+        skip();
     }
 
     let strangermsg = document.getElementsByClassName('strangermsg');
