@@ -122,8 +122,8 @@
     }
 
     // Interface Stuff
+    let socialbuttons = document.getElementById('sharebuttons');
     function deleteSocialButtons() {
-        let socialbuttons = document.getElementById('sharebuttons');
         while (socialbuttons.children.length) {
             socialbuttons.children[0].remove();
         }
@@ -143,7 +143,13 @@
             menu.appendChild(submenu);
             return submenu;
         });
-
+        var blackliststatus = document.createElement('p')
+        if (!blackliststopped) {
+            blackliststatus.innerText = 'Blacklist: Enabled'
+        }
+        else {
+            blackliststatus.innerText = 'Blacklist: Disabled'
+        }
         let [pbcat, disableb, enableb, ipbcat, addipb, clearipb, cbcat, addcblacklist, clearcblacklist, misccat, enterapi, turnoffgeo, turnongeo, version] = [
             "C*Blacklist Control",
             "Disable Blacklist",
@@ -184,10 +190,12 @@
         disableb.onclick = function () {
             blackliststopped = true;
             console.log('Disabled blacklist!');
+            socialbuttons.children[0].innerText = "Blacklist: Disabled"
         };
         enableb.onclick = function () {
             blackliststopped = false;
             console.log('Enabled blacklist!');
+            socialbuttons.children[0].innerText = "Blacklist: Enabled"
         };
         enterapi.onclick = function () {
             let apikey = prompt('Enter API key from https://app.ipgeolocation.io/');
@@ -213,6 +221,7 @@
         version.classList.add('otk_version');
         submenu2.appendChild(version);
         logbox.appendChild(menu);
+        socialbuttons.appendChild(socialbuttons)
     }
     // Blacklist Phrase Detection and Auto-Skip
     let disconnectbtn = document.getElementsByClassName('disconnectbtn');
