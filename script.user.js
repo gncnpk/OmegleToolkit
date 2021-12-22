@@ -180,11 +180,11 @@
             "Omegle Toolkit v1.01"
         ].map(text => {
             if (text.startsWith('C*')) {
-                let catagory = document.createElement('p');
-                catagory.innerText = text.slice(2);
-                catagory.className = "catagory";
-                submenu1.appendChild(catagory);
-                return catagory;
+                let category = document.createElement('p');
+                category.innerText = text.slice(2);
+                category.className = "category";
+                submenu1.appendChild(category);
+                return category;
             }
             else {
                 let button = document.createElement('button');
