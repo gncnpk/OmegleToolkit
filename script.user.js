@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Omegle Toolkit
 // @namespace    https://github.com/Smooklu/OmegleToolkit
-// @version      1.0
+// @version      1.01
 // @description  A toolkit designed to make your experience on Omegle safe and smooth.
 // @author       Smooklu & Chinoto
 // @match        https://www.omegle.com/
