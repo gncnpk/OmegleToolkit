@@ -143,6 +143,7 @@
             menu.appendChild(submenu);
             return submenu;
         });
+        socialbuttons.className = 'otk_statusdisplay'
         if (!socialbuttons.children.length) {
             var blackliststatus = document.createElement('p')
             blackliststatus.innerText = 'Blacklist: Enabled'
