@@ -8,7 +8,7 @@ A toolkit designed to ensure a smooth and safe experience on Omegle.
 * User-defined Country blacklist (video only) (Geolocation)
 
 ## Geolocation
-Please obtain a API key from https://ipgeolocation.io/ for geolocation features to work.
+Please obtain a API key from https://ipgeolocation.io/ and enter the API key on Omegle for geolocation features to work.
 
 ## To-Do
 * Brainstorm more ideas
@@ -16,7 +16,7 @@ Please obtain a API key from https://ipgeolocation.io/ for geolocation features 
 ## Install
 Install Tampermonkey (Chrome) or Greasemonkey (Firefox) and click [here](https://github.com/Smooklu/OmegleToolkit/raw/main/script.user.js)
 
-## Browser Compatibility 
+## Browser Compatibility Table
 |Browser|Version|Working|Notes|
 |-|-|-|-|
 |Microsoft Edge|96.0.1054.62|✔️|
