@@ -44,6 +44,7 @@
 .otk_statusdisplay {
     font-weight: bold;
 }
+/*
 .blackliststatus.enabled {
     background: linear-gradient(to right, black 0%, black 50%, green 50%);
     -webkit-background-clip: text;
@@ -54,17 +55,17 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-.geoloc.on {
+.geolocset.on {
     background: linear-gradient(to right, black 0%, black 50%, green 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-.geoloc.off {
+.geolocset.off {
     background: linear-gradient(to right, black 0%, black 50%, red 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-
+*/
 .catagory {
     text-align: center;
     font-weight: bold;

@@ -21,6 +21,7 @@
     function AddToIPBlacklist() {
         if (!ip) {
             console.log('No IP specified!');
+            return;
         }
         let tbunparsed = localStorage.getItem('ipblacklist');
         let tbparsed = (tbunparsed ? JSON.parse(tbunparsed) : []);
@@ -33,6 +34,7 @@
         let country = prompt('Enter country to be blacklisted:');
         if (!country) {
             console.log('No country specified!');
+            return;
         }
         let tbunparsed = localStorage.getItem('cblacklist');
         let tbparsed = (tbunparsed ? JSON.parse(tbunparsed) : []);
@@ -129,6 +131,7 @@
         while (socialbuttons.children.length) {
             socialbuttons.children[0].remove();
         }
+        document.getElementById('onlinecount').remove();
     }
     let logbox_collection = document.getElementsByClassName('logwrapper');
     async function addInterface() {
@@ -137,7 +140,6 @@
         }
         // Don't run if the menu or if the status display already exists
         if (document.querySelector('.buttonmenu')) { return; }
-        if (document.querySelector('.otk_statusdisplay')) { return; }
         let logbox = logbox_collection[0];
         let menu = document.createElement('menu');
         menu.className = 'buttonmenu';
@@ -147,17 +149,20 @@
             return submenu;
         });
         socialbuttons.className = 'otk_statusdisplay'
-        let [blstatus, geolocstatus, lastaction] = [
-            "Blacklist: Enabled ",
-            "Geolocation: On ",
-            "Last Action:"
-        ].map(text => {
-            let status = document.createElement('p')
-            status.innerText = text;
-            status.style = 'display: inline;'
-            socialbuttons.appendChild(status)
-            return status;
-        })
+        if (!socialbuttons.children.length) {
+            let [blstatus, geolocstatus, lastaction] = [
+                "Blacklist: Enabled ",
+                "Geolocation: On ",
+                "Last Action:"
+            ].map(text => {
+                let status = document.createElement('p')
+                status.innerText = text;
+                status.style = 'margin: 1px;'
+                socialbuttons.appendChild(status)
+                return status;
+            })
+            socialbuttons.style = 'margin-top: -5px;'
+        }
         let [pbcat, disableb, enableb, ipbcat, addipb, clearipb, cbcat, addcblacklist, clearcblacklist, misccat, enterapi, turnoffgeo, turnongeo, version] = [
             "C*Blacklist Control",
             "Disable Blacklist",
@@ -223,13 +228,13 @@
         turnoffgeo.onclick = function () {
             console.log('Turned off Geolocation!')
             socialbuttons.children[1].innerText = "Geolocation: Off "
-            socialbuttons.children[1].className = 'geoloc off'
+            socialbuttons.children[1].className = 'geolocset off'
             window.geoturnoff = true
         }
         turnongeo.onclick = function () {
             console.log('Turned on Geolocation!')
             socialbuttons.children[1].innerText = "Geolocation: On "
-            socialbuttons.children[1].className = 'geoloc on'
+            socialbuttons.children[1].className = 'geolocset on'
             window.geoturnoff = false
         }
         version.classList.add('otk_version');
