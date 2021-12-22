@@ -161,7 +161,7 @@
             "Enter API Key",
             "Turn Off Geolocation",
             "Turn On Geolocation",
-            "Omegle Toolkit v1.0"
+            "Omegle Toolkit v1.01"
         ].map(text => {
             if (text.startsWith('C*')) {
                 let catagory = document.createElement('p');
