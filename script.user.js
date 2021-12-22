@@ -163,7 +163,7 @@
             })
             socialbuttons.style = 'margin-top: -5px;'
         }
-        let [pbcat, disableb, enableb, ipbcat, addipb, clearipb, cbcat, addcblacklist, clearcblacklist, misccat, enterapi, turnoffgeo, turnongeo, version] = [
+        let [pbcat, disableb, enableb, ipbcat, addipb, clearipb, cbcat, addcblacklist, clearcblacklist, displaycblacklist, misccat, enterapi, turnoffgeo, turnongeo, version] = [
             "C*Blacklist Control",
             "Disable Blacklist",
             "Enable Blacklist",
@@ -173,6 +173,7 @@
             "C*Country Blacklist",
             "Add Country to Blacklist",
             "Clear Country Blacklist",
+            "Display Country Blacklist",
             "C*Settings",
             "Enter API Key",
             "Turn Off Geolocation",
@@ -225,6 +226,9 @@
             country = '';
             console.log('Cleared Country Blacklist!');
         };
+        displaycblacklist.onclick = function () {
+            window.alert(JSON.parse(localStorage.cblacklist))
+        }
         turnoffgeo.onclick = function () {
             console.log('Turned off Geolocation!')
             socialbuttons.children[1].innerText = "Geolocation: Off "
