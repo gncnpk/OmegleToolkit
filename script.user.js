@@ -143,7 +143,7 @@
             menu.appendChild(submenu);
             return submenu;
         });
-        if (!socialbuttons.children.length {
+        if (!socialbuttons.children.length) {
             var blackliststatus = document.createElement('p')
         }
         if (!blackliststopped) {
