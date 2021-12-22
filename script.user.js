@@ -264,7 +264,12 @@
             console.log('Starts with blacklist phrase detected! Skipping!');
             socialbuttons.children[2].innerText = 'Last Action: Phrase Blacklist Skip'
             skip();
+        } else if (blacklist.includes.some(element => msg.toLowerCase().includes(element))) {
+            console.log('Includes blacklist phrase detected! Skipping!');
+            socialbuttons.children[2].innerText = 'Last Action: Phrase Blacklist Skip'
+            skip();
         }
+
     }
 
     let strangermsg = document.getElementsByClassName('strangermsg');
