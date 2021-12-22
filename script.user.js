@@ -49,6 +49,7 @@
         ipblacklist = JSON.parse(ipblacklist);
         if (ipblacklist.indexOf(ip) !== -1) {
             console.log('Blacklisted IP detected! Skipping!');
+            socialbuttons.children[2].innerText = 'Last Action: IP Blacklist Skip'
             skip();
         }
     }
@@ -61,6 +62,7 @@
         cblacklist = JSON.parse(cblacklist);
         if (cblacklist.indexOf(country) !== -1) {
             console.log('Blacklisted country detected! Skipping!');
+            socialbuttons.children[2].innerText = 'Last Action: Country Blacklist Skip'
             skip();
         }
     }
@@ -133,8 +135,9 @@
         while (!logbox_collection[0]) {
             await new Promise(res => setTimeout(res, 50));
         }
-        // Don't run if the menu already exists
+        // Don't run if the menu or if the status display already exists
         if (document.querySelector('.buttonmenu')) { return; }
+        if (document.querySelector('.otk_statusdisplay')) { return; }
         let logbox = logbox_collection[0];
         let menu = document.createElement('menu');
         menu.className = 'buttonmenu';
@@ -144,11 +147,17 @@
             return submenu;
         });
         socialbuttons.className = 'otk_statusdisplay'
-        if (!socialbuttons.children.length) {
-            var blackliststatus = document.createElement('p')
-            blackliststatus.innerText = 'Blacklist: Enabled'
-            blackliststatus.className = 'blackliststatus enabled'
-        }
+        let [blstatus, geolocstatus, lastaction] = [
+            "Blacklist: Enabled ",
+            "Geolocation: On ",
+            "Last Action:"
+        ].map(text => {
+            let status = document.createElement('p')
+            status.innerText = text;
+            status.style = 'display: inline;'
+            socialbuttons.appendChild(status)
+            return status;
+        })
         let [pbcat, disableb, enableb, ipbcat, addipb, clearipb, cbcat, addcblacklist, clearcblacklist, misccat, enterapi, turnoffgeo, turnongeo, version] = [
             "C*Blacklist Control",
             "Disable Blacklist",
@@ -159,7 +168,7 @@
             "C*Country Blacklist",
             "Add Country to Blacklist",
             "Clear Country Blacklist",
-            "C*Miscellaneous",
+            "C*Settings",
             "Enter API Key",
             "Turn Off Geolocation",
             "Turn On Geolocation",
@@ -189,13 +198,13 @@
         disableb.onclick = function () {
             blackliststopped = true;
             console.log('Disabled blacklist!');
-            socialbuttons.children[0].innerText = "Blacklist: Disabled"
+            socialbuttons.children[0].innerText = "Blacklist: Disabled "
             socialbuttons.children[0].className = 'blackliststatus disabled'
         };
         enableb.onclick = function () {
             blackliststopped = false;
             console.log('Enabled blacklist!');
-            socialbuttons.children[0].innerText = "Blacklist: Enabled"
+            socialbuttons.children[0].innerText = "Blacklist: Enabled "
             socialbuttons.children[0].className = 'blackliststatus enabled'
         };
         enterapi.onclick = function () {
@@ -213,16 +222,19 @@
         };
         turnoffgeo.onclick = function () {
             console.log('Turned off Geolocation!')
+            socialbuttons.children[1].innerText = "Geolocation: Off "
+            socialbuttons.children[1].className = 'geoloc off'
             window.geoturnoff = true
         }
         turnongeo.onclick = function () {
             console.log('Turned on Geolocation!')
+            socialbuttons.children[1].innerText = "Geolocation: On "
+            socialbuttons.children[1].className = 'geoloc on'
             window.geoturnoff = false
         }
         version.classList.add('otk_version');
         submenu2.appendChild(version);
         logbox.appendChild(menu);
-        socialbuttons.appendChild(blackliststatus)
     }
     // Blacklist Phrase Detection and Auto-Skip
     let disconnectbtn = document.getElementsByClassName('disconnectbtn');
@@ -238,9 +250,11 @@
         let msg = element.children[1].innerText;
         if (blacklist.exact.indexOf(msg.toLowerCase()) >= 0) {
             console.log('Exact match blacklist phrase detected! Skipping!');
+            socialbuttons.children[2].innerText = 'Last Action: Phrase Blacklist Skip'
             skip();
         } else if (blacklist.startswith.some(element => msg.toLowerCase().startsWith(element))) {
             console.log('Starts with blacklist phrase detected! Skipping!');
+            socialbuttons.children[2].innerText = 'Last Action: Phrase Blacklist Skip'
             skip();
         }
     }

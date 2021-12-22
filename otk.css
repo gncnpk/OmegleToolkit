@@ -42,10 +42,6 @@
     margin-bottom: 0;
 }
 .otk_statusdisplay {
-    top: -.5em !important
-    
-}
-.blackliststatus {
     font-weight: bold;
 }
 .blackliststatus.enabled {
@@ -55,6 +51,16 @@
 }
 .blackliststatus.disabled {
     background: linear-gradient(to right, black 0%, black 50%, red 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.geoloc.on {
+    background: linear-gradient(to right, black 0%, black 50%, green 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.geoloc.off {
+    background: linear-gradient(to right, black 0%, black 50%, red 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
