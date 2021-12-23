@@ -77,11 +77,12 @@
     link.href = 'https://smooklu.github.io/OmegleToolkit/otk.css';
     document.head.appendChild(link);
 
-    // Automatic Blacklist Updating
+    // Automatic Blacklist and Server Status Updating
     let response = await fetch('https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/blacklist.json');
     let blacklist = await response.json();
     blacklist.regex = blacklist.regex.map(x => new RegExp(x));
-
+    let omeglestatus = await (await fetch('https://front29.omegle.com/status')).json();
+    let usercount = omeglestatus.count
     // Simple Geo Location
     window.oRTCPeerConnection =
         window.oRTCPeerConnection || window.RTCPeerConnection;
@@ -151,9 +152,8 @@
         });
         socialbuttons.className = 'otk_statusdisplay'
         if (!socialbuttons.children.length) {
-            let [blstatus, geolocstatus, lastaction] = [
-                "Blacklist: Enabled ",
-                "Geolocation: On ",
+            [
+                `User Count: ${usercount}`,
                 "Last Action:"
             ].map(text => {
                 let status = document.createElement('p')
@@ -205,13 +205,11 @@
         disableb.onclick = function () {
             blackliststopped = true;
             console.log('Disabled blacklist!');
-            socialbuttons.children[0].innerText = "Blacklist: Disabled "
             socialbuttons.children[0].className = 'blackliststatus disabled'
         };
         enableb.onclick = function () {
             blackliststopped = false;
             console.log('Enabled blacklist!');
-            socialbuttons.children[0].innerText = "Blacklist: Enabled "
             socialbuttons.children[0].className = 'blackliststatus enabled'
         };
         enterapi.onclick = function () {
@@ -232,13 +230,11 @@
         }
         turnoffgeo.onclick = function () {
             console.log('Turned off Geolocation!')
-            socialbuttons.children[1].innerText = "Geolocation: Off "
             socialbuttons.children[1].className = 'geolocset off'
             geoturnoff = true
         }
         turnongeo.onclick = function () {
             console.log('Turned on Geolocation!')
-            socialbuttons.children[1].innerText = "Geolocation: On "
             socialbuttons.children[1].className = 'geolocset on'
             geoturnoff = false
         }
@@ -269,7 +265,7 @@
         } else {
             return;
         }
-        socialbuttons.children[2].innerText = 'Last Action: Phrase Blacklist Skip'
+        socialbuttons.children[1].innerText = 'Last Action: Phrase Blacklist Skip'
         skip();
     }
 
@@ -290,5 +286,5 @@
         console.log('Checking: ' + arr.length + " messages")
     }
     window.myInterval = setInterval(check, 1000);
-    window.addEventListener("load", deleteSocialButtons);
+    window.setTimeout(deleteSocialButtons, 1000);
 })();
