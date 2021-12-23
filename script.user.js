@@ -140,9 +140,6 @@
         while (!logbox_collection[0]) {
             await new Promise(res => setTimeout(res, 50));
         }
-        if (!videologo) {
-            videologo.remove()
-        }
         // Don't run if the menu or if the status display already exists
         if (document.querySelector('.buttonmenu')) { return; }
         let logbox = logbox_collection[0];
