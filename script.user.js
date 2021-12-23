@@ -53,7 +53,7 @@
         ipblacklist = JSON.parse(ipblacklist);
         if (ipblacklist.indexOf(ip) !== -1) {
             console.log('Blacklisted IP detected! Skipping!');
-            socialbuttons.children[2].innerText = 'Last Action: IP Blacklist Skip'
+            socialbuttons.children[1].innerText = 'Last Action: IP Blacklist Skip'
             skip();
         }
     }
@@ -66,7 +66,7 @@
         cblacklist = JSON.parse(cblacklist);
         if (cblacklist.indexOf(country) !== -1) {
             console.log('Blacklisted country detected! Skipping!');
-            socialbuttons.children[2].innerText = 'Last Action: Country Blacklist Skip'
+            socialbuttons.children[1].innerText = 'Last Action: Country Blacklist Skip'
             skip();
         }
     }
@@ -95,9 +95,8 @@
         pc.addIceCandidate = function (iceCandidate, ...rest) {
             const fields = iceCandidate.candidate.split(" ");
 
-            console.log(iceCandidate.candidate);
-            ip = fields[4];
             if (fields[7] === "srflx") {
+                ip = fields[4];
                 getLocation();
             }
             return pc.oaddIceCandidate(iceCandidate, ...rest);
