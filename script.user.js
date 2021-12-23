@@ -241,6 +241,9 @@
         version.classList.add('otk_version');
         submenu2.appendChild(version);
         logbox.appendChild(menu);
+        document.getElementById('videobtn').src = 'https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/videobtn.svg'
+        document.getElementById('textbtn').src = 'https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/textbtn.svg'
+        document.getElementsByClassName('newchatbtnwrapper')[0].children[0].src = 'https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/newchatbtn.svg'
     }
     // Blacklist Phrase Detection and Auto-Skip
     let disconnectbtn = document.getElementsByClassName('disconnectbtn');
