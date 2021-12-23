@@ -133,14 +133,6 @@
             socialbuttons.children[0].remove();
         }
         document.getElementById('onlinecount').remove();
-        let videobtn = document.getElementById('videobtn');
-        let textbtn = document.getElementById('textbtn');
-        if(videobtn) {
-            videobtn.src = 'https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/videobtn.svg' 
-        }
-        if(textbtn) {
-            textbtn.src = 'https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/textbtn.svg' 
-        }
     }
     let logbox_collection = document.getElementsByClassName('logwrapper');
     let videologo = document.getElementById('videologo');
@@ -149,10 +141,6 @@
             await new Promise(res => setTimeout(res, 50));
         }
         // Don't run if the menu or if the status display already exists
-        let newchatbtn = document.getElementsByClassName('newchatbtnwrapper')[0]?.children[0];
-        if (newchatbtn) {
-            newchatbtn.src = 'https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/newchatbtn.svg'
-        }
         if (document.querySelector('.buttonmenu')) { return; }
         let logbox = logbox_collection[0];
         let menu = document.createElement('menu');

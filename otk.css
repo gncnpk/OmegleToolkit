@@ -77,3 +77,12 @@
     text-align: center;
     font-weight: bold;
 }
+#videobtn {
+    content: url('https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/videobtn.svg')
+}
+#textbtn {
+    content: url('https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/textbtn.svg')
+}
+.newchatbtnwrapper > img {
+    content: url('https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/newchatbtn.svg')
+}
