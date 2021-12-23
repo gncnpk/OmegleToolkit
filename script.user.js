@@ -135,13 +135,11 @@
         document.getElementById('onlinecount').remove();
         let videobtn = document.getElementById('videobtn');
         let textbtn = document.getElementById('textbtn');
-        if(videobtn.className != 'otk') {
-            videobtn.src = 'https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/videobtn.svg'
-            videobtn.className = 'otk'
+        if(videobtn) {
+            videobtn.src = 'https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/videobtn.svg' 
         }
-        if(textbtn.className != 'otk') {
-            textbtn.src = 'https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/textbtn.svg'
-            videobtn.className = 'otk'
+        if(textbtn) {
+            textbtn.src = 'https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/textbtn.svg' 
         }
     }
     let logbox_collection = document.getElementsByClassName('logwrapper');
@@ -152,9 +150,8 @@
         }
         // Don't run if the menu or if the status display already exists
         let newchatbtn = document.getElementsByClassName('newchatbtnwrapper')[0]?.children[0];
-        if (newchatbtn.className != 'otk') {
+        if (newchatbtn) {
             newchatbtn.src = 'https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/newchatbtn.svg'
-            newchatbtn.className = 'otk'
         }
         if (document.querySelector('.buttonmenu')) { return; }
         let logbox = logbox_collection[0];
