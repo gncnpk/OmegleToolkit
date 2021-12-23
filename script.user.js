@@ -135,9 +135,13 @@
         document.getElementById('onlinecount').remove();
     }
     let logbox_collection = document.getElementsByClassName('logwrapper');
+    let videologo = document.getElementById('videologo');
     async function addInterface() {
         while (!logbox_collection[0]) {
             await new Promise(res => setTimeout(res, 50));
+        }
+        if (!videologo) {
+            videologo.remove()
         }
         // Don't run if the menu or if the status display already exists
         if (document.querySelector('.buttonmenu')) { return; }
