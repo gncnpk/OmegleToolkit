@@ -66,9 +66,9 @@
 }
 .enabled {
     background-color: green;
-    color: black;
+    color: white;
 }
 .disabled {
     background-color: red;
-    color: black;
+    color: white;
 }
