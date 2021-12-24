@@ -64,11 +64,11 @@
 .newchatbtnwrapper > img {
     content: url('https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/newchatbtn.svg')
 }
-.enabled {
+button.enabled {
     background-color: green;
     color: white;
 }
-.disabled {
+button.disabled {
     background-color: red;
     color: white;
 }
