@@ -6,6 +6,7 @@ A toolkit designed to ensure a smooth and safe experience on Omegle.
 * Stranger country detection (video only) (Geolocation)
 * User-defined IP blacklist (video only)
 * User-defined Country blacklist (video only) (Geolocation)
+* Auto reroll for video and text chat
 
 ## Geolocation
 Please obtain a API key from https://ipgeolocation.io/ and enter the API key on Omegle for geolocation features to work.

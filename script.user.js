@@ -18,6 +18,7 @@
     let blackliststopped = false;
     let geoturnoff = false;
     let version_number = '1.02';
+    let auto_reroll = false;
 
     // IP and Country Blacklist
     function addToIPBlacklist() {
@@ -104,7 +105,7 @@
         return pc;
     };
 
-    let clogitem = document.getElementsByClassName('logitem');
+    let clogitem = document.getElementsByClassName('statuslog');
     let getLocation = async () => {
         let output = `<h2 class="geoloc">Unknown</h2>`;
         if (apikey && !geoturnoff) {
@@ -164,7 +165,7 @@
             })
             socialbuttons.style = 'margin-top: -5px;'
         }
-        let [pbcat, addipb, clearipb, cbcat, addcblacklist, clearcblacklist, displaycblacklist, misccat, enterapi, togglegeo, toggleb, version] = [
+        let [pbcat, addipb, clearipb, cbcat, addcblacklist, clearcblacklist, displaycblacklist, misccat, enterapi, togglegeo, toggleb, a_reroll, version] = [
             "C*IP Blacklist",
             "Add to IP Blacklist",
             "Clear IP Blacklist",
@@ -176,6 +177,7 @@
             "Enter API Key",
             "Geolocation Enabled",
             "Blacklist Enabled",
+            "Auto Reroll Disabled",
             `Omegle Toolkit v${version_number}`
         ].map(text => {
             if (text.startsWith('C*')) {
@@ -243,9 +245,56 @@
                 togglegeo.innerText = 'Geolocation Disabled';
             }
         };
+        if (geoturnoff) {
+            togglegeo.className = 'buttons disabled';
+            togglegeo.innerText = 'Geolocation Disabled';
+        } 
+        else {
+            togglegeo.className = 'buttons enabled';
+            togglegeo.innerText = 'Geolocation Enabled';
+        }
+        if (blackliststopped) { 
+            toggleb.className = 'buttons disabled';
+            toggleb.innerText = 'Blacklist Disabled';
+        } 
+        else {
+            toggleb.className = 'buttons enabled';
+            toggleb.innerText = 'Blacklist Enabled';
+        }
+        if (auto_reroll) { 
+            a_reroll.className = 'buttons enabled';
+            a_reroll.innerText = 'Auto Reroll Enabled';
+        } 
+        else {
+            a_reroll.className = 'buttons disabled';
+            a_reroll.innerText = 'Auto Reroll Disabled';
+        }
+        a_reroll.onclick = function () {
+            if (auto_reroll) {
+                auto_reroll = false;
+                console.log('Disabled auto reroll!');
+                a_reroll.className = 'buttons disabled';
+                a_reroll.innerText = 'Auto Reroll Disabled';
+            }
+            else {
+                auto_reroll = true;
+                console.log('Enabled auto reroll!');
+                a_reroll.className = 'buttons enabled';
+                a_reroll.innerText = 'Auto Reroll Enabled';
+            }
+        };
         version.classList.add('otk_version');
         submenu2.appendChild(version);
         logbox.appendChild(menu);
+    }
+    // Auto Reroll
+    function checkDisconnect(element) {
+        if (element.innerText.includes('disconnected')) {
+            if (auto_reroll) {
+                console.log('Rerolling!')
+                startNew();
+            }
+        }
     }
     // Blacklist Phrase Detection and Auto-Skip
     let disconnectbtn = document.getElementsByClassName('disconnectbtn');
@@ -256,7 +305,11 @@
         ip = '';
         country = '';
     }
-
+    function startNew() {
+        disconnectbtn[0]?.click();
+        ip = '';
+        country = '';
+    }
     function verify(element) {
         let msg = element.children[1].innerText.toLowerCase();
         if (blacklist.exact.indexOf(msg) >= 0) {
@@ -275,6 +328,7 @@
     }
 
     let strangermsg = document.getElementsByClassName('strangermsg');
+    let statuslog = document.getElementsByClassName('statuslog');
     function check() {
         autoConfirmTerms();
         addInterface();
@@ -282,8 +336,10 @@
             return;
         }
         let arr = Array.from(strangermsg);
+        let arr1 = Array.from(statuslog);
         checkIPBlacklist();
         checkCountryBlacklist();
+        arr1.forEach(element => checkDisconnect(element));
         if (arr.length == 0) {
             return;
         }
