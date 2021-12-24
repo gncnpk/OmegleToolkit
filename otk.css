@@ -51,28 +51,6 @@
 .otk_statusdisplay {
     font-weight: bold;
 }
-/*
-.blackliststatus.enabled {
-    background: linear-gradient(to right, black 0%, black 50%, green 50%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-.blackliststatus.disabled {
-    background: linear-gradient(to right, black 0%, black 50%, red 50%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-.geolocset.on {
-    background: linear-gradient(to right, black 0%, black 50%, green 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-.geolocset.off {
-    background: linear-gradient(to right, black 0%, black 50%, red 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-*/
 .category {
     text-align: center;
     font-weight: bold;
@@ -85,4 +63,12 @@
 }
 .newchatbtnwrapper > img {
     content: url('https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/newchatbtn.svg')
+}
+.enabled {
+    background-color: green;
+    color: black;
+}
+.disabled {
+    background-color: red;
+    color: black;
 }

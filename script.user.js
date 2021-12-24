@@ -164,10 +164,7 @@
             })
             socialbuttons.style = 'margin-top: -5px;'
         }
-        let [pbcat, disableb, enableb, ipbcat, addipb, clearipb, cbcat, addcblacklist, clearcblacklist, displaycblacklist, misccat, enterapi, turnoffgeo, turnongeo, version] = [
-            "C*Blacklist Control",
-            "Disable Blacklist",
-            "Enable Blacklist",
+        let [pbcat, addipb, clearipb, cbcat, addcblacklist, clearcblacklist, displaycblacklist, misccat, enterapi, togglegeo, toggleb, version] = [
             "C*IP Blacklist",
             "Add to IP Blacklist",
             "Clear IP Blacklist",
@@ -177,8 +174,8 @@
             "Display Country Blacklist",
             "C*Settings",
             "Enter API Key",
-            "Turn Off Geolocation",
-            "Turn On Geolocation",
+            "Geolocation Enabled",
+            "Blacklist Enabled",
             `Omegle Toolkit v${version_number}`
         ].map(text => {
             if (text.startsWith('C*')) {
@@ -202,15 +199,19 @@
             ip = '';
             console.log('Cleared IP Blacklist!');
         };
-        disableb.onclick = function () {
-            blackliststopped = true;
-            console.log('Disabled blacklist!');
-            socialbuttons.children[0].className = 'blackliststatus disabled'
-        };
-        enableb.onclick = function () {
-            blackliststopped = false;
-            console.log('Enabled blacklist!');
-            socialbuttons.children[0].className = 'blackliststatus enabled'
+        toggleb.onclick = function () {
+            if (blackliststopped) {
+                blackliststopped = false;
+                console.log('Enabled blacklist!');
+                toggleb.className = 'buttons enabled';
+                toggleb.innerText = 'Blacklist Enabled';
+            }
+            else {
+                blackliststopped = true;
+                console.log('Disabled blacklist!');
+                toggleb.className = 'buttons disabled';
+                toggleb.innerText = 'Blacklist Disabled';
+            }
         };
         enterapi.onclick = function () {
             let apikey = prompt('Enter API key from https://app.ipgeolocation.io/');
@@ -228,16 +229,20 @@
         displaycblacklist.onclick = function () {
             window.alert(JSON.parse(localStorage.cblacklist))
         }
-        turnoffgeo.onclick = function () {
-            console.log('Turned off Geolocation!')
-            socialbuttons.children[1].className = 'geolocset off'
-            geoturnoff = true
-        }
-        turnongeo.onclick = function () {
-            console.log('Turned on Geolocation!')
-            socialbuttons.children[1].className = 'geolocset on'
-            geoturnoff = false
-        }
+        togglegeo.onclick = function () {
+            if (geoturnoff) {
+                geoturnoff = false;
+                console.log('Enabled geo location features!');
+                togglegeo.className = 'buttons enabled';
+                togglegeo.innerText = 'Geolocation Enabled';
+            }
+            else {
+                geoturnoff = true;
+                console.log('Disabled geo location features!');
+                togglegeo.className = 'buttons disabled';
+                togglegeo.innerText = 'Geolocation Disabled';
+            }
+        };
         version.classList.add('otk_version');
         submenu2.appendChild(version);
         logbox.appendChild(menu);
