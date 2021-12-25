@@ -1,8 +1,11 @@
 # Omegle Toolkit
 A toolkit designed to ensure a smooth and safe experience on Omegle.
 
+![OmegleToolkit](https://user-images.githubusercontent.com/37220586/147379135-4a589c4e-bc82-4f3d-bf6a-ee4f49e86e02.png)
+
 ## Features
-* Blacklisted phrases detection and automatically skips
+* Blacklisted phrases detection and automatically skips!
+
 * Stranger country detection (video only) (Geolocation)
 * User-defined IP blacklist (video only)
 * User-defined Country blacklist (video only) (Geolocation)
