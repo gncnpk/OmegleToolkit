@@ -55,7 +55,7 @@
         if (ipblacklist.indexOf(ip) !== -1) {
             console.log('Blacklisted IP detected! Skipping!');
             socialbuttons.children[1].innerText = 'Last Action: IP Blacklist Skip'
-            pressDisconnect(3);
+            startNew();
         }
     }
 
@@ -68,7 +68,7 @@
         if (cblacklist.indexOf(country) !== -1) {
             console.log('Blacklisted country detected! Skipping!');
             socialbuttons.children[1].innerText = 'Last Action: Country Blacklist Skip'
-            pressDisconnect(3);
+            startNew();
         }
     }
     // Inject Custom Style Sheet
@@ -292,7 +292,7 @@
         if (element.innerText.includes('disconnected')) {
             if (auto_reroll) {
                 console.log('Rerolling!')
-                pressDisconnect(1);
+                startNew();
                 return false;
             }
             else {
@@ -304,7 +304,14 @@
     }
     // Blacklist Phrase Detection and Auto-Skip
     let disconnectbtn = document.getElementsByClassName('disconnectbtn');
-    function pressDisconnect(amt) {
+    function startNew() {
+        if (disconnectbtn[0]?.innerText.split("\n")[0] == "New") {
+            var amt = 1;
+        } else if (disconnectbtn[0]?.innerText.split("\n")[0] == "Really?") {
+            var amt = 2;
+        } else if (disconnectbtn[0]?.innerText.split("\n")[0] == "Stop") {
+            var amt = 3;
+        }
         for (let i = 0; i < amt; i++) {
             disconnectbtn[0]?.click();
         }
@@ -316,22 +323,22 @@
         if (blacklist.exact.indexOf(msg) >= 0) {
             console.log('Exact match blacklist phrase detected! Skipping!');
             socialbuttons.children[1].innerText = 'Last Action: Phrase Blacklist Skip'
-            pressDisconnect(3);
+            startNew();
             return false;
         } else if (blacklist.startswith.some(element => msg.startsWith(element))) {
             console.log('Starts with blacklist phrase detected! Skipping!');
             socialbuttons.children[1].innerText = 'Last Action: Phrase Blacklist Skip'
-            pressDisconnect(3);
+            startNew();
             return false;
         } else if (blacklist.includes.some(element => msg.includes(element))) {
             console.log('Includes blacklist phrase detected! Skipping!');
             socialbuttons.children[1].innerText = 'Last Action: Phrase Blacklist Skip'
-            pressDisconnect(3);
+            startNew();
             return false;
         } else if (blacklist.regex.some(element => element.test(msg))) {
             console.log('Regex blacklist phrase detected! Skipping!');
             socialbuttons.children[1].innerText = 'Last Action: Phrase Blacklist Skip'
-            pressDisconnect(3);
+            startNew();
             return false;
         } else {
             return true;
