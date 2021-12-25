@@ -19,6 +19,8 @@
     let geoturnoff = false;
     let version_number = '1.02';
     let auto_reroll = false;
+    let seconds = 0;
+    let secondcounter;
 
     // IP and Country Blacklist
     function addToIPBlacklist() {
@@ -155,7 +157,8 @@
         if (!socialbuttons.children.length) {
             [
                 `User Count: ${usercount}`,
-                "Last Action:"
+                "Last Action:",
+                "Chat Session Length:"
             ].map(text => {
                 let status = document.createElement('p')
                 status.innerText = text;
@@ -248,23 +251,23 @@
         if (geoturnoff) {
             togglegeo.className = 'buttons disabled';
             togglegeo.innerText = 'Geolocation Disabled';
-        } 
+        }
         else {
             togglegeo.className = 'buttons enabled';
             togglegeo.innerText = 'Geolocation Enabled';
         }
-        if (blackliststopped) { 
+        if (blackliststopped) {
             toggleb.className = 'buttons disabled';
             toggleb.innerText = 'Blacklist Disabled';
-        } 
+        }
         else {
             toggleb.className = 'buttons enabled';
             toggleb.innerText = 'Blacklist Enabled';
         }
-        if (auto_reroll) { 
+        if (auto_reroll) {
             a_reroll.className = 'buttons enabled';
             a_reroll.innerText = 'Auto Reroll Enabled';
-        } 
+        }
         else {
             a_reroll.className = 'buttons disabled';
             a_reroll.innerText = 'Auto Reroll Disabled';
@@ -295,10 +298,10 @@
                 startNew();
                 return false;
             }
-            else {
-                return true;
-            }
+            secondcounter = false;
+            return false;
         } else {
+            secondcounter = true;
             return true;
         }
     }
@@ -317,6 +320,7 @@
         }
         ip = '';
         country = '';
+        seconds = 0;
     }
     function verify(element) {
         let msg = element.children[1].innerText.toLowerCase();
@@ -357,6 +361,10 @@
         let arr1 = Array.from(statuslog);
         checkIPBlacklist();
         checkCountryBlacklist();
+        if (socialbuttons.children[2] && secondcounter) {
+            seconds += 1;
+            socialbuttons.children[2].innerText = `Chat Session Length: ${seconds}s`
+        }
         arr1.every(element => checkDisconnect(element));
         if (arr.length == 0) {
             return;
