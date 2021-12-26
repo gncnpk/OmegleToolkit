@@ -19,8 +19,8 @@
     let geoturnoff = false;
     let version_number = '1.02';
     let auto_reroll = false;
-    let seconds = 0;
-    let secondcounter;
+    let orgsecs = 0;
+    let minutes = 0;
 
     // IP and Country Blacklist
     function addToIPBlacklist() {
@@ -122,15 +122,20 @@
 
     function autoConfirmTerms() {
         let confirm = document.querySelector('input[value="Confirm & continue"]');
-        if (!confirm) { return; }
+        if (!confirm) {
+            return;
+        }
         let checkboxes = confirm.closest('div')
             .querySelectorAll('input[type=checkbox]:not(:checked)');
-        for (let checkbox of checkboxes) { checkbox.click(); }
+        for (let checkbox of checkboxes) {
+            checkbox.click();
+        }
         confirm.click();
     }
 
     // Interface Stuff
     let socialbuttons = document.getElementById('sharebuttons');
+
     function deleteSocialButtons() {
         while (socialbuttons.children.length) {
             socialbuttons.children[0].remove();
@@ -144,7 +149,9 @@
             await new Promise(res => setTimeout(res, 50));
         }
         // Don't run if the menu or if the status display already exists
-        if (document.querySelector('.buttonmenu')) { return; }
+        if (document.querySelector('.buttonmenu')) {
+            return;
+        }
         let logbox = logbox_collection[0];
         let menu = document.createElement('menu');
         menu.className = 'buttonmenu';
@@ -189,8 +196,7 @@
                 category.className = "category";
                 submenu1.appendChild(category);
                 return category;
-            }
-            else {
+            } else {
                 let button = document.createElement('button');
                 button.innerText = text;
                 button.className = "buttons";
@@ -210,8 +216,7 @@
                 console.log('Enabled blacklist!');
                 toggleb.className = 'buttons enabled';
                 toggleb.innerText = 'Blacklist Enabled';
-            }
-            else {
+            } else {
                 blackliststopped = true;
                 console.log('Disabled blacklist!');
                 toggleb.className = 'buttons disabled';
@@ -240,8 +245,7 @@
                 console.log('Enabled geo location features!');
                 togglegeo.className = 'buttons enabled';
                 togglegeo.innerText = 'Geolocation Enabled';
-            }
-            else {
+            } else {
                 geoturnoff = true;
                 console.log('Disabled geo location features!');
                 togglegeo.className = 'buttons disabled';
@@ -251,24 +255,21 @@
         if (geoturnoff) {
             togglegeo.className = 'buttons disabled';
             togglegeo.innerText = 'Geolocation Disabled';
-        }
-        else {
+        } else {
             togglegeo.className = 'buttons enabled';
             togglegeo.innerText = 'Geolocation Enabled';
         }
         if (blackliststopped) {
             toggleb.className = 'buttons disabled';
             toggleb.innerText = 'Blacklist Disabled';
-        }
-        else {
+        } else {
             toggleb.className = 'buttons enabled';
             toggleb.innerText = 'Blacklist Enabled';
         }
         if (auto_reroll) {
             a_reroll.className = 'buttons enabled';
             a_reroll.innerText = 'Auto Reroll Enabled';
-        }
-        else {
+        } else {
             a_reroll.className = 'buttons disabled';
             a_reroll.innerText = 'Auto Reroll Disabled';
         }
@@ -278,8 +279,7 @@
                 console.log('Disabled auto reroll!');
                 a_reroll.className = 'buttons disabled';
                 a_reroll.innerText = 'Auto Reroll Disabled';
-            }
-            else {
+            } else {
                 auto_reroll = true;
                 console.log('Enabled auto reroll!');
                 a_reroll.className = 'buttons enabled';
@@ -298,15 +298,30 @@
                 startNew();
                 return false;
             }
-            secondcounter = false;
-            return false;
         } else {
-            secondcounter = true;
             return true;
+        }
+    }
+    // Chat Session Length 
+    function secondCounter() {
+        let sl = document.getElementsByClassName('statuslog')
+        if (sl[sl.length - 1]?.innerText.includes('disconnected') || sl[sl.length - 3]?.innerText.includes('disconnected')) {
+            orgsecs = orgsecs;
+        } else {
+            orgsecs += 1;
+        }
+        if (orgsecs % 60 == orgsecs) {
+            socialbuttons.children[2].innerText = `Chat Session Length: ${orgsecs}s`
+        } else {
+            let modsecs = orgsecs;
+            minutes = Math.floor(orgsecs / 60)
+            modsecs = orgsecs % 60
+            socialbuttons.children[2].innerText = `Chat Session Length: ${minutes}m ${modsecs}s`
         }
     }
     // Blacklist Phrase Detection and Auto-Skip
     let disconnectbtn = document.getElementsByClassName('disconnectbtn');
+
     function startNew() {
         if (disconnectbtn[0]?.innerText.split("\n")[0] == "New") {
             var amt = 1;
@@ -320,8 +335,11 @@
         }
         ip = '';
         country = '';
-        seconds = 0;
+        orgsecs = 0;
+        modsecs = 0;
+        minutes = 0;
     }
+
     function verify(element) {
         let msg = element.children[1].innerText.toLowerCase();
         if (blacklist.exact.indexOf(msg) >= 0) {
@@ -351,9 +369,13 @@
 
     let strangermsg = document.getElementsByClassName('strangermsg');
     let statuslog = document.getElementsByClassName('statuslog');
+
     function check() {
         autoConfirmTerms();
         addInterface();
+        if (socialbuttons.className == "otk_statusdisplay") {
+            secondCounter(false);
+        }
         if (blackliststopped) {
             return;
         }
@@ -361,10 +383,6 @@
         let arr1 = Array.from(statuslog);
         checkIPBlacklist();
         checkCountryBlacklist();
-        if (socialbuttons.children[2] && secondcounter) {
-            seconds += 1;
-            socialbuttons.children[2].innerText = `Chat Session Length: ${seconds}s`
-        }
         arr1.every(element => checkDisconnect(element));
         if (arr.length == 0) {
             return;
