@@ -21,6 +21,7 @@
     let auto_reroll = false;
     let orgsecs = 0;
     let minutes = 0;
+    let modsecs = 0;
 
     // IP and Country Blacklist
     function addToIPBlacklist() {
@@ -313,7 +314,7 @@
         if (orgsecs % 60 == orgsecs) {
             socialbuttons.children[2].innerText = `Chat Session Length: ${orgsecs}s`
         } else {
-            let modsecs = orgsecs;
+            modsecs = orgsecs;
             minutes = Math.floor(orgsecs / 60)
             modsecs = orgsecs % 60
             socialbuttons.children[2].innerText = `Chat Session Length: ${minutes}m ${modsecs}s`
