@@ -56,9 +56,9 @@
         }
         ipblacklist = JSON.parse(ipblacklist);
         if (ipblacklist.indexOf(ip) !== -1) {
-            console.log('Blacklisted IP detected! Skipping!');
-            socialbuttons.children[1].innerText = 'Last Action: IP Blacklist Skip'
-            startNew(false);
+            console.log('Blacklisted IP detected! Disconnecting!');
+            socialbuttons.children[1].innerText = 'Last Action: IP Blacklist Disconnect'
+            startstop();
         }
     }
 
@@ -69,9 +69,9 @@
         }
         cblacklist = JSON.parse(cblacklist);
         if (cblacklist.indexOf(country) !== -1) {
-            console.log('Blacklisted country detected! Skipping!');
-            socialbuttons.children[1].innerText = 'Last Action: Country Blacklist Skip'
-            startNew(false);
+            console.log('Blacklisted country detected! Disconnecting!');
+            socialbuttons.children[1].innerText = 'Last Action: Country Blacklist Disconnect'
+            startstop();
         }
     }
     // Inject Custom Style Sheet
@@ -296,7 +296,7 @@
         if (element.innerText.includes('disconnected')) {
             if (auto_reroll) {
                 console.log('Rerolling!')
-                startNew(true);
+                startstop();
                 return false;
             }
         } else {
@@ -332,9 +332,9 @@
             socialbuttons.children[2].innerText = `Chat Session Length: ${minutes}m ${modsecs}s`
         }
     }
-    // Blacklist Phrase Detection and Auto-Skip
+    // Blacklist Phrase Detection and Auto-Disconnect
 
-    function startNew() {
+    function startstop() {
         if (disconnectbtn[0]?.innerText.split("\n")[0] == "New" && auto_reroll) {
             var amt = 1;
         } else if (disconnectbtn[0]?.innerText.split("\n")[0] == "Really?") {
@@ -355,24 +355,24 @@
     function verify(element) {
         let msg = element.children[1].innerText.toLowerCase();
         if (blacklist.exact.indexOf(msg) >= 0) {
-            console.log('Exact match blacklist phrase detected! Skipping!');
-            socialbuttons.children[1].innerText = 'Last Action: Phrase Blacklist Skip'
-            startNew(false);
+            console.log('Exact match blacklist phrase detected! Disconnecting!');
+            socialbuttons.children[1].innerText = 'Last Action: Phrase Blacklist Disconnect'
+            startstop();
             return false;
         } else if (blacklist.startswith.some(element => msg.startsWith(element))) {
-            console.log('Starts with blacklist phrase detected! Skipping!');
-            socialbuttons.children[1].innerText = 'Last Action: Phrase Blacklist Skip'
-            startNew(false);
+            console.log('Starts with blacklist phrase detected! Disconnecting!');
+            socialbuttons.children[1].innerText = 'Last Action: Phrase Blacklist Disconnect'
+            startstop();
             return false;
         } else if (blacklist.includes.some(element => msg.includes(element))) {
-            console.log('Includes blacklist phrase detected! Skipping!');
-            socialbuttons.children[1].innerText = 'Last Action: Phrase Blacklist Skip'
-            startNew(false);
+            console.log('Includes blacklist phrase detected! Disconnecting!');
+            socialbuttons.children[1].innerText = 'Last Action: Phrase Blacklist Disconnect'
+            startstop();
             return false;
         } else if (blacklist.regex.some(element => element.test(msg))) {
-            console.log('Regex blacklist phrase detected! Skipping!');
-            socialbuttons.children[1].innerText = 'Last Action: Phrase Blacklist Skip'
-            startNew(false);
+            console.log('Regex blacklist phrase detected! Disconnecting!');
+            socialbuttons.children[1].innerText = 'Last Action: Phrase Blacklist Disconnect'
+            startstop();
             return false;
         } else {
             return true;
@@ -403,5 +403,5 @@
         console.log('Checking: ' + arr.length + " messages")
     }
     window.myInterval = setInterval(check, 1000);
-    window.setTimeout(deleteSocialButtons, 1000);
+    window.setTimeout(deleteSocialButtons, 500);
 })();
