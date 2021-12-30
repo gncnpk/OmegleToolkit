@@ -58,7 +58,7 @@
         if (ipblacklist.indexOf(ip) !== -1) {
             console.log('Blacklisted IP detected! Skipping!');
             socialbuttons.children[1].innerText = 'Last Action: IP Blacklist Skip'
-            startNew();
+            startNew(false);
         }
     }
 
@@ -71,7 +71,7 @@
         if (cblacklist.indexOf(country) !== -1) {
             console.log('Blacklisted country detected! Skipping!');
             socialbuttons.children[1].innerText = 'Last Action: Country Blacklist Skip'
-            startNew();
+            startNew(false);
         }
     }
     // Inject Custom Style Sheet
@@ -296,7 +296,7 @@
         if (element.innerText.includes('disconnected')) {
             if (auto_reroll) {
                 console.log('Rerolling!')
-                startNew();
+                startNew(true);
                 return false;
             }
         } else {
@@ -304,16 +304,24 @@
         }
     }
     // Chat Session Length 
+    let disconnectbtn = document.getElementsByClassName('disconnectbtn');
     function secondCounter() {
         let sl = document.getElementsByClassName('statuslog')
-        if (sl[sl.length - 1]?.innerText.includes('disconnected') || sl[sl.length - 3]?.innerText.includes('disconnected')) {
+        if (sl[sl.length - 1]?.innerText.includes('disconnected') || sl[sl.length - 3]?.innerText.includes('disconnected') || sl[sl.length - 2]?.innerText.includes('disconnected')) {
             orgsecs = orgsecs;
         } else {
             orgsecs += 1;
         }
-        if (orgsecs % 60 == orgsecs) {
+        if (!disconnectbtn[0]) {
+            orgsecs = 0;
+        } 
+        if (orgsecs == 0) {
+            socialbuttons.children[2].innerText = `Chat Session Length: No Session`
+        }
+        else if (orgsecs % 60 == orgsecs) {
             socialbuttons.children[2].innerText = `Chat Session Length: ${orgsecs}s`
-        } else {
+        }
+        else {
             modsecs = orgsecs;
             minutes = Math.floor(orgsecs / 60)
             modsecs = orgsecs % 60
@@ -321,15 +329,14 @@
         }
     }
     // Blacklist Phrase Detection and Auto-Skip
-    let disconnectbtn = document.getElementsByClassName('disconnectbtn');
 
-    function startNew() {
-        if (disconnectbtn[0]?.innerText.split("\n")[0] == "New") {
+    function startNew(is_auto_reroll) {
+        if (disconnectbtn[0]?.innerText.split("\n")[0] == "New" && is_auto_reroll) {
             var amt = 1;
         } else if (disconnectbtn[0]?.innerText.split("\n")[0] == "Really?") {
-            var amt = 2;
+            var amt = 1;
         } else if (disconnectbtn[0]?.innerText.split("\n")[0] == "Stop") {
-            var amt = 3;
+            var amt = 2;
         }
         for (let i = 0; i < amt; i++) {
             disconnectbtn[0]?.click();
@@ -346,22 +353,22 @@
         if (blacklist.exact.indexOf(msg) >= 0) {
             console.log('Exact match blacklist phrase detected! Skipping!');
             socialbuttons.children[1].innerText = 'Last Action: Phrase Blacklist Skip'
-            startNew();
+            startNew(false);
             return false;
         } else if (blacklist.startswith.some(element => msg.startsWith(element))) {
             console.log('Starts with blacklist phrase detected! Skipping!');
             socialbuttons.children[1].innerText = 'Last Action: Phrase Blacklist Skip'
-            startNew();
+            startNew(false);
             return false;
         } else if (blacklist.includes.some(element => msg.includes(element))) {
             console.log('Includes blacklist phrase detected! Skipping!');
             socialbuttons.children[1].innerText = 'Last Action: Phrase Blacklist Skip'
-            startNew();
+            startNew(false);
             return false;
         } else if (blacklist.regex.some(element => element.test(msg))) {
             console.log('Regex blacklist phrase detected! Skipping!');
             socialbuttons.children[1].innerText = 'Last Action: Phrase Blacklist Skip'
-            startNew();
+            startNew(false);
             return false;
         } else {
             return true;
