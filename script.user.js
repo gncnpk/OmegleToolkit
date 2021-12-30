@@ -306,6 +306,10 @@
     // Chat Session Length 
     let disconnectbtn = document.getElementsByClassName('disconnectbtn');
     function secondCounter() {
+        if (!auto_reroll) {
+            socialbuttons.children[2].innerText = ''
+            return
+        }
         let sl = document.getElementsByClassName('statuslog')
         if (sl[sl.length - 1]?.innerText.includes('disconnected') || sl[sl.length - 3]?.innerText.includes('disconnected') || sl[sl.length - 2]?.innerText.includes('disconnected')) {
             orgsecs = orgsecs;
@@ -330,8 +334,8 @@
     }
     // Blacklist Phrase Detection and Auto-Skip
 
-    function startNew(is_auto_reroll) {
-        if (disconnectbtn[0]?.innerText.split("\n")[0] == "New" && is_auto_reroll) {
+    function startNew() {
+        if (disconnectbtn[0]?.innerText.split("\n")[0] == "New" && auto_reroll) {
             var amt = 1;
         } else if (disconnectbtn[0]?.innerText.split("\n")[0] == "Really?") {
             var amt = 1;
