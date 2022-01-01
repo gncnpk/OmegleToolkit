@@ -388,7 +388,7 @@
         autoConfirmTerms();
         addInterface();
         if (socialbuttons.className == "otk_statusdisplay") {
-            secondCounter(false);
+            secondCounter();
         }
         if (blackliststopped) {
             return;
