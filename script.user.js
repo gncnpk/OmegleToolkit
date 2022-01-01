@@ -171,11 +171,11 @@
             ].map(text => {
                 let status = document.createElement('p')
                 status.textContent = text;
-                status.style = 'margin: 1px;'
+                status.style.margin = '1px';
                 socialbuttons.appendChild(status)
                 return status;
             })
-            socialbuttons.style = 'margin-top: -5px;'
+            socialbuttons.style.marginTop = '-5px';
         }
         let [pbcat, addipb, clearipb, cbcat, addcblacklist, clearcblacklist, displaycblacklist, misccat, enterapi, togglegeo, toggleb, a_reroll, version] = [
             "C*IP Blacklist",
