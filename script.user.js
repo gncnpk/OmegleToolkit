@@ -307,13 +307,13 @@
     }
     // Chat Session Length
     let disconnectbtn = document.getElementsByClassName('disconnectbtn');
+    let statuslog = document.getElementsByClassName('statuslog');
     function secondCounter() {
         if (!auto_reroll) {
             socialbuttons.children[2].textContent = ''
             return
         }
-        let sl = document.getElementsByClassName('statuslog')
-        if (sl[sl.length - 1]?.textContent.includes('disconnected') || sl[sl.length - 3]?.textContent.includes('disconnected') || sl[sl.length - 2]?.textContent.includes('disconnected')) {
+        if (Array.from(statuslog).slice(-3).some(x => x.textContent.includes('disconnected'))) {
             orgsecs = orgsecs;
         } else {
             orgsecs += 1;
@@ -382,7 +382,6 @@
     }
 
     let strangermsg = document.getElementsByClassName('strangermsg');
-    let statuslog = document.getElementsByClassName('statuslog');
 
     function check() {
         autoConfirmTerms();
