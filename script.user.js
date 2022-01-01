@@ -21,8 +21,6 @@
     let version_number = '1.02';
     let auto_reroll = false;
     let orgsecs = 0;
-    let minutes = 0;
-    let modsecs = 0;
 
     // IP and Country Blacklist
     function addToIPBlacklist() {
@@ -313,9 +311,7 @@
             socialbuttons.children[2].textContent = ''
             return
         }
-        if (Array.from(statuslog).slice(-3).some(x => x.textContent.includes('disconnected'))) {
-            orgsecs = orgsecs;
-        } else {
+        if (!Array.from(statuslog).slice(-3).some(x => x.textContent.includes('disconnected'))) {
             orgsecs += 1;
         }
         if (!disconnectbtn[0]) {
@@ -324,14 +320,9 @@
         if (orgsecs == 0) {
             socialbuttons.children[2].textContent = `Chat Session Length: No Session`
         }
-        else if (orgsecs % 60 == orgsecs) {
-            socialbuttons.children[2].textContent = `Chat Session Length: ${orgsecs}s`
-        }
         else {
-            modsecs = orgsecs;
-            minutes = Math.floor(orgsecs / 60)
-            modsecs = orgsecs % 60
-            socialbuttons.children[2].textContent = `Chat Session Length: ${minutes}m ${modsecs}s`
+            let minutes = (orgsecs >= 60 ? Math.floor(orgsecs / 60) + "m " : "");
+            socialbuttons.children[2].textContent = `Chat Session Length: ${minutes}${orgsecs % 60}s`
         }
     }
     // Blacklist Phrase Detection and Auto-Disconnect
@@ -350,8 +341,6 @@
         ip = '';
         country = '';
         orgsecs = 0;
-        modsecs = 0;
-        minutes = 0;
     }
 
     function verify(element) {
