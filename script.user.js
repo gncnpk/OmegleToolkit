@@ -302,8 +302,9 @@
         } else {
             return true;
         }
+        return false;
     }
-    // Chat Session Length 
+    // Chat Session Length
     let disconnectbtn = document.getElementsByClassName('disconnectbtn');
     function secondCounter() {
         if (!auto_reroll) {
@@ -318,7 +319,7 @@
         }
         if (!disconnectbtn[0]) {
             orgsecs = 0;
-        } 
+        }
         if (orgsecs == 0) {
             socialbuttons.children[2].innerText = `Chat Session Length: No Session`
         }
@@ -400,7 +401,7 @@
             return;
         }
         arr.every(element => verify(element));
-        console.log('Checking: ' + arr.length + " messages")
+        console.log(`Checking: ${arr.length} messages`)
     }
     window.myInterval = setInterval(check, 1000);
     window.setTimeout(deleteSocialButtons, 500);
