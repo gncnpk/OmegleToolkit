@@ -1,7 +1,7 @@
 # Omegle Toolkit
 A toolkit designed to ensure a smooth and safe experience on Omegle.
 
-![OmegleToolkit](https://user-images.githubusercontent.com/37220586/147379135-4a589c4e-bc82-4f3d-bf6a-ee4f49e86e02.png)
+![OmegleToolkit](https://user-images.githubusercontent.com/37220586/147861712-634d09be-0673-4a19-9fdb-1dbd3366dd74.png)
 
 ## Features
 * Blacklisted phrases detection and automatically skips
