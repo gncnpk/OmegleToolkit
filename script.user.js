@@ -345,29 +345,21 @@
 
     function verify(element) {
         let msg = element.children[1].textContent.toLowerCase();
+        let match = '';
         if (blacklist.exact.indexOf(msg) >= 0) {
-            console.log('Exact match blacklist phrase detected! Disconnecting!');
-            socialbuttons.children[1].textContent = 'Last Action: Phrase Blacklist Disconnect'
-            startstop();
-            return false;
+            match = 'Exact match';
         } else if (blacklist.startswith.some(element => msg.startsWith(element))) {
-            console.log('Starts with blacklist phrase detected! Disconnecting!');
-            socialbuttons.children[1].textContent = 'Last Action: Phrase Blacklist Disconnect'
-            startstop();
-            return false;
+            match = 'Starts with';
         } else if (blacklist.includes.some(element => msg.includes(element))) {
-            console.log('Includes blacklist phrase detected! Disconnecting!');
-            socialbuttons.children[1].textContent = 'Last Action: Phrase Blacklist Disconnect'
-            startstop();
-            return false;
+            match = 'Includes';
         } else if (blacklist.regex.some(element => element.test(msg))) {
-            console.log('Regex blacklist phrase detected! Disconnecting!');
+            match = 'Regex';
+        }
+        if (match !== '') {
             socialbuttons.children[1].textContent = 'Last Action: Phrase Blacklist Disconnect'
             startstop();
-            return false;
-        } else {
-            return true;
         }
+        return match === '';
     }
 
     let strangermsg = document.getElementsByClassName('strangermsg');
