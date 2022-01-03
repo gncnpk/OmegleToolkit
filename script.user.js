@@ -29,7 +29,7 @@
             return;
         }
         let tbunparsed = localStorage.getItem('ipblacklist');
-        let tbparsed = (tbunparsed ? JSON.parse(tbunparsed) : []);
+        let tbparsed = tbunparsed ? JSON.parse(tbunparsed) : [];
         tbparsed.push(ip);
         localStorage.setItem('ipblacklist', JSON.stringify(tbparsed));
         console.log(`Added ${ip} to the IP Blacklist!`);
@@ -42,7 +42,7 @@
             return;
         }
         let tbunparsed = localStorage.getItem('cblacklist');
-        let tbparsed = (tbunparsed ? JSON.parse(tbunparsed) : []);
+        let tbparsed = tbunparsed ? JSON.parse(tbunparsed) : [];
         tbparsed.push(country);
         localStorage.setItem('cblacklist', JSON.stringify(tbparsed));
         console.log(`Added ${country} to the Country Blacklist!`);
@@ -56,7 +56,8 @@
         ipblacklist = JSON.parse(ipblacklist);
         if (ipblacklist.indexOf(ip) !== -1) {
             console.log('Blacklisted IP detected! Disconnecting!');
-            socialbuttons.children[1].textContent = 'Last Action: IP Blacklist Disconnect'
+            socialbuttons.children[1].textContent =
+                'Last Action: IP Blacklist Disconnect';
             startstop();
         }
     }
@@ -69,7 +70,8 @@
         cblacklist = JSON.parse(cblacklist);
         if (cblacklist.indexOf(country) !== -1) {
             console.log('Blacklisted country detected! Disconnecting!');
-            socialbuttons.children[1].textContent = 'Last Action: Country Blacklist Disconnect'
+            socialbuttons.children[1].textContent =
+                'Last Action: Country Blacklist Disconnect';
             startstop();
         }
     }
@@ -81,11 +83,15 @@
     document.head.appendChild(link);
 
     // Automatic Blacklist and Server Status Updating
-    let response = await fetch('https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/blacklist.json');
+    let response = await fetch(
+        'https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/blacklist.json'
+    );
     let blacklist = await response.json();
     blacklist.regex = blacklist.regex.map(x => new RegExp(x));
-    let omeglestatus = await (await fetch('https://front29.omegle.com/status')).json();
-    let usercount = omeglestatus.count
+    let omeglestatus = await (
+        await fetch('https://front29.omegle.com/status')
+    ).json();
+    let usercount = omeglestatus.count;
     // Simple Geo Location
     window.oRTCPeerConnection =
         window.oRTCPeerConnection || window.RTCPeerConnection;
@@ -96,9 +102,9 @@
         pc.oaddIceCandidate = pc.addIceCandidate;
 
         pc.addIceCandidate = function (iceCandidate, ...rest) {
-            const fields = iceCandidate.candidate.split(" ");
+            const fields = iceCandidate.candidate.split(' ');
 
-            if (fields[7] === "srflx") {
+            if (fields[7] === 'srflx') {
                 ip = fields[4];
                 getLocation();
             }
@@ -121,11 +127,14 @@
     };
 
     function autoConfirmTerms() {
-        let confirm = document.querySelector('input[value="Confirm & continue"]');
+        let confirm = document.querySelector(
+            'input[value="Confirm & continue"]'
+        );
         if (!confirm) {
             return;
         }
-        let checkboxes = confirm.closest('div')
+        let checkboxes = confirm
+            .closest('div')
             .querySelectorAll('input[type=checkbox]:not(:checked)');
         for (let checkbox of checkboxes) {
             checkbox.click();
@@ -160,46 +169,60 @@
             menu.appendChild(submenu);
             return submenu;
         });
-        socialbuttons.className = 'otk_statusdisplay'
+        socialbuttons.className = 'otk_statusdisplay';
         if (!socialbuttons.children.length) {
             [
                 `User Count: ${usercount}`,
-                "Last Action:",
-                "Chat Session Length:"
+                'Last Action:',
+                'Chat Session Length:',
             ].map(text => {
-                let status = document.createElement('p')
+                let status = document.createElement('p');
                 status.textContent = text;
                 status.style.margin = '1px';
-                socialbuttons.appendChild(status)
+                socialbuttons.appendChild(status);
                 return status;
-            })
+            });
             socialbuttons.style.marginTop = '-5px';
         }
-        let [pbcat, addipb, clearipb, cbcat, addcblacklist, clearcblacklist, displaycblacklist, misccat, enterapi, togglegeo, toggleb, a_reroll, version] = [
-            "C*IP Blacklist",
-            "Add to IP Blacklist",
-            "Clear IP Blacklist",
-            "C*Country Blacklist",
-            "Add Country to Blacklist",
-            "Clear Country Blacklist",
-            "Display Country Blacklist",
-            "C*Settings",
-            "Enter API Key",
-            "Geolocation Enabled",
-            "Blacklist Enabled",
-            "Auto Reroll Disabled",
-            `Omegle Toolkit v${version_number}`
+        let [
+            pbcat,
+            addipb,
+            clearipb,
+            cbcat,
+            addcblacklist,
+            clearcblacklist,
+            displaycblacklist,
+            misccat,
+            enterapi,
+            togglegeo,
+            toggleb,
+            a_reroll,
+            version,
+        ] = [
+            'C*IP Blacklist',
+            'Add to IP Blacklist',
+            'Clear IP Blacklist',
+            'C*Country Blacklist',
+            'Add Country to Blacklist',
+            'Clear Country Blacklist',
+            'Display Country Blacklist',
+            'C*Settings',
+            'Enter API Key',
+            'Geolocation Enabled',
+            'Blacklist Enabled',
+            'Auto Reroll Disabled',
+            `Omegle Toolkit v${version_number}`,
         ].map(text => {
             if (text.startsWith('C*')) {
                 let category = document.createElement('p');
                 category.textContent = text.slice(2);
-                category.className = "category";
+                category.className = 'category';
                 submenu1.appendChild(category);
                 return category;
             } else {
                 let button = document.createElement('button');
                 button.textContent = text;
-                button.className = "buttons";
+                button.className = 'buttons';
                 submenu1.appendChild(button);
                 return button;
             }
@@ -224,12 +247,14 @@
             }
         };
         enterapi.onclick = function () {
-            let apikey = prompt('Enter API key from https://app.ipgeolocation.io/');
+            let apikey = prompt(
+                'Enter API key from https://app.ipgeolocation.io/'
+            );
             if (!apikey) {
                 return;
             }
             localStorage.setItem('apikey', apikey);
-        }
+        };
         addcblacklist.onclick = addToCountryBlacklist;
         clearcblacklist.onclick = function () {
             localStorage.setItem('cblacklist', '');
@@ -237,8 +262,8 @@
             console.log('Cleared Country Blacklist!');
         };
         displaycblacklist.onclick = function () {
-            window.alert(JSON.parse(localStorage.cblacklist))
-        }
+            window.alert(JSON.parse(localStorage.cblacklist));
+        };
         togglegeo.onclick = function () {
             if (geoturnoff) {
                 geoturnoff = false;
@@ -294,7 +319,7 @@
     function checkDisconnect(element) {
         if (element.textContent.includes('disconnected')) {
             if (auto_reroll) {
-                console.log('Rerolling!')
+                console.log('Rerolling!');
                 startstop();
                 return false;
             }
@@ -308,31 +333,38 @@
     let statuslog = document.getElementsByClassName('statuslog');
     function secondCounter() {
         if (!auto_reroll) {
-            socialbuttons.children[2].textContent = ''
-            return
+            socialbuttons.children[2].textContent = '';
+            return;
         }
-        if (!Array.from(statuslog).slice(-3).some(x => x.textContent.includes('disconnected'))) {
+        if (
+            !Array.from(statuslog)
+                .slice(-3)
+                .some(x => x.textContent.includes('disconnected'))
+        ) {
             orgsecs += 1;
         }
         if (!disconnectbtn[0]) {
             orgsecs = 0;
         }
         if (orgsecs == 0) {
-            socialbuttons.children[2].textContent = `Chat Session Length: No Session`
-        }
-        else {
-            let minutes = (orgsecs >= 60 ? Math.floor(orgsecs / 60) + "m " : "");
-            socialbuttons.children[2].textContent = `Chat Session Length: ${minutes}${orgsecs % 60}s`
+            socialbuttons.children[2].textContent = `Chat Session Length: No Session`;
+        } else {
+            let minutes = orgsecs >= 60 ? Math.floor(orgsecs / 60) + 'm ' : '';
+            let seconds = orgsecs % 60;
+            socialbuttons.children[2].textContent = `Chat Session Length: ${minutes}${seconds}s`;
         }
     }
     // Blacklist Phrase Detection and Auto-Disconnect
 
     function startstop() {
-        if (disconnectbtn[0]?.textContent.split("\n")[0] == "New" && auto_reroll) {
+        if (
+            disconnectbtn[0]?.textContent.split('\n')[0] == 'New' &&
+            auto_reroll
+        ) {
             var amt = 1;
-        } else if (disconnectbtn[0]?.textContent.split("\n")[0] == "Really?") {
+        } else if (disconnectbtn[0]?.textContent.split('\n')[0] == 'Really?') {
             var amt = 1;
-        } else if (disconnectbtn[0]?.textContent.split("\n")[0] == "Stop") {
+        } else if (disconnectbtn[0]?.textContent.split('\n')[0] == 'Stop') {
             var amt = 2;
         }
         for (let i = 0; i < amt; i++) {
@@ -348,7 +380,9 @@
         let match = '';
         if (blacklist.exact.indexOf(msg) >= 0) {
             match = 'Exact match';
-        } else if (blacklist.startswith.some(element => msg.startsWith(element))) {
+        } else if (
+            blacklist.startswith.some(element => msg.startsWith(element))
+        ) {
             match = 'Starts with';
         } else if (blacklist.includes.some(element => msg.includes(element))) {
             match = 'Includes';
@@ -357,7 +391,8 @@
         }
         if (match !== '') {
             console.log(match + ' blacklist phrase detected! Disconnecting!');
-            socialbuttons.children[1].textContent = 'Last Action: Phrase Blacklist Disconnect'
+            socialbuttons.children[1].textContent =
+                'Last Action: Phrase Blacklist Disconnect';
             startstop();
         }
         return match === '';
@@ -368,7 +403,7 @@
     function check() {
         autoConfirmTerms();
         addInterface();
-        if (socialbuttons.className == "otk_statusdisplay") {
+        if (socialbuttons.className == 'otk_statusdisplay') {
             secondCounter();
         }
         if (blackliststopped) {
@@ -383,7 +418,7 @@
             return;
         }
         arr.every(element => verify(element));
-        console.log(`Checking: ${arr.length} messages`)
+        console.log(`Checking: ${arr.length} messages`);
     }
     window.myInterval = setInterval(check, 1000);
     window.setTimeout(deleteSocialButtons, 500);
