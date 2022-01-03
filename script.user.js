@@ -356,6 +356,7 @@
             match = 'Regex';
         }
         if (match !== '') {
+            console.log(match + ' blacklist phrase detected! Disconnecting!');
             socialbuttons.children[1].textContent = 'Last Action: Phrase Blacklist Disconnect'
             startstop();
         }
