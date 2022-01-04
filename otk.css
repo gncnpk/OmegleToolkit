@@ -26,7 +26,7 @@
     bottom: 0;
     right: -170px;
     position: absolute;
-    margin:0;
+    margin: 0;
     padding: 0;
 }
 .buttonmenu > div:nth-child(1) {
@@ -56,13 +56,13 @@
     font-weight: bold;
 }
 #videobtn {
-    content: url('https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/videobtn.svg')
+    content: url('https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/videobtn.svg');
 }
 #textbtn {
-    content: url('https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/textbtn.svg')
+    content: url('https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/textbtn.svg');
 }
 .newchatbtnwrapper > img {
-    content: url('https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/newchatbtn.svg')
+    content: url('https://raw.githubusercontent.com/Smooklu/OmegleToolkit/main/static/newchatbtn.svg');
 }
 button.enabled {
     background-color: green;
