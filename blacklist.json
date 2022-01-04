@@ -9,11 +9,8 @@
         "you dick is big? can u show me?",
         "come on this site to see me naked. purchasse token 1 time to be lifetime premium 👉 omegle...vip (one dot)"
     ],
-    "regex": [
-        "^((hii?|hey)\\.* )?[mf] ?\\d*\\b",
-        "^\\d+ ?[mf]\\b"
-    ],
-    "startswith": [
+    "regex": ["^((hii?|hey)\\.* )?[mf] ?\\d*\\b", "^\\d+ ?[mf]\\b"],
+    "starts_with": [
         "hi.. 😉",
         "only men here on cam?",
         "wanna chat? 😋",

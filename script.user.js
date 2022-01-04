@@ -13,14 +13,14 @@
 (async function () {
     'use strict';
     // Startup Vars
-    let apikey = localStorage.getItem('apikey');
+    let api_key = localStorage.getItem('api_key');
     let ip = '';
     let country = '';
-    let blackliststopped = false;
-    let geoturnoff = false;
+    let blacklist_stopped = false;
+    let geo_turnoff = false;
     let version_number = '1.02';
     let auto_reroll = false;
-    let orgsecs = 0;
+    let chat_time = 0;
 
     // IP and Country Blacklist
     function addToIPBlacklist() {
@@ -28,10 +28,10 @@
             console.log('No IP specified!');
             return;
         }
-        let tbunparsed = localStorage.getItem('ipblacklist');
-        let tbparsed = tbunparsed ? JSON.parse(tbunparsed) : [];
-        tbparsed.push(ip);
-        localStorage.setItem('ipblacklist', JSON.stringify(tbparsed));
+        let unparsed = localStorage.getItem('ip_blacklist');
+        let parsed = unparsed ? JSON.parse(unparsed) : [];
+        parsed.push(ip);
+        localStorage.setItem('ip_blacklist', JSON.stringify(parsed));
         console.log(`Added ${ip} to the IP Blacklist!`);
     }
 
@@ -41,38 +41,38 @@
             console.log('No country specified!');
             return;
         }
-        let tbunparsed = localStorage.getItem('cblacklist');
-        let tbparsed = tbunparsed ? JSON.parse(tbunparsed) : [];
-        tbparsed.push(country);
-        localStorage.setItem('cblacklist', JSON.stringify(tbparsed));
+        let unparsed = localStorage.getItem('country_blacklist');
+        let parsed = unparsed ? JSON.parse(unparsed) : [];
+        parsed.push(country);
+        localStorage.setItem('country_blacklist', JSON.stringify(parsed));
         console.log(`Added ${country} to the Country Blacklist!`);
     }
 
     function checkIPBlacklist() {
-        let ipblacklist = localStorage.getItem('ipblacklist');
-        if (!ipblacklist) {
+        let ip_blacklist = localStorage.getItem('ip_blacklist');
+        if (!ip_blacklist) {
             return;
         }
-        ipblacklist = JSON.parse(ipblacklist);
-        if (ipblacklist.indexOf(ip) !== -1) {
+        ip_blacklist = JSON.parse(ip_blacklist);
+        if (ip_blacklist.indexOf(ip) !== -1) {
             console.log('Blacklisted IP detected! Disconnecting!');
-            socialbuttons.children[1].textContent =
+            social_buttons.children[1].textContent =
                 'Last Action: IP Blacklist Disconnect';
-            startstop();
+            start_stop();
         }
     }
 
     function checkCountryBlacklist() {
-        let cblacklist = localStorage.getItem('cblacklist');
-        if (!cblacklist) {
+        let country_blacklist = localStorage.getItem('country_blacklist');
+        if (!country_blacklist) {
             return;
         }
-        cblacklist = JSON.parse(cblacklist);
-        if (cblacklist.indexOf(country) !== -1) {
+        country_blacklist = JSON.parse(country_blacklist);
+        if (country_blacklist.indexOf(country) !== -1) {
             console.log('Blacklisted country detected! Disconnecting!');
-            socialbuttons.children[1].textContent =
+            social_buttons.children[1].textContent =
                 'Last Action: Country Blacklist Disconnect';
-            startstop();
+            start_stop();
         }
     }
     // Inject Custom Style Sheet
@@ -88,18 +88,18 @@
     );
     let blacklist = await response.json();
     blacklist.regex = blacklist.regex.map(x => new RegExp(x));
-    let omeglestatus = await (
+    let omegle_status = await (
         await fetch('https://front29.omegle.com/status')
     ).json();
-    let usercount = omeglestatus.count;
+    let user_count = omegle_status.count;
     // Simple Geo Location
-    window.oRTCPeerConnection =
-        window.oRTCPeerConnection || window.RTCPeerConnection;
+    window.originalRTCPeerConnection =
+        window.originalRTCPeerConnection || window.RTCPeerConnection;
 
     window.RTCPeerConnection = function (...args) {
-        const pc = new window.oRTCPeerConnection(...args);
+        const pc = new window.originalRTCPeerConnection(...args);
 
-        pc.oaddIceCandidate = pc.addIceCandidate;
+        pc.original_addIceCandidate = pc.addIceCandidate;
 
         pc.addIceCandidate = function (iceCandidate, ...rest) {
             const fields = iceCandidate.candidate.split(' ');
@@ -108,22 +108,22 @@
                 ip = fields[4];
                 getLocation();
             }
-            return pc.oaddIceCandidate(iceCandidate, ...rest);
+            return pc.original_addIceCandidate(iceCandidate, ...rest);
         };
         return pc;
     };
 
-    let clogitem = document.getElementsByClassName('statuslog');
+    let statuslog = document.getElementsByClassName('statuslog');
     let getLocation = async () => {
-        let output = `<h2 class="geoloc">Unknown</h2>`;
-        if (apikey && !geoturnoff) {
-            let url = `https://api.ipgeolocation.io/ipgeo?apiKey=${apikey}&ip=${ip}`;
+        let output = `<h2 class="geo_loc">Unknown</h2>`;
+        if (api_key && !geo_turnoff) {
+            let url = `https://api.ipgeolocation.io/ipgeo?apiKey=${api_key}&ip=${ip}`;
             let response = await fetch(url);
             let json = await response.json();
-            output = `<img class="flag" src=${json.country_flag}></img><h2 class="geoloc">${json.country_name}</h2>`;
+            output = `<img class="flag" src=${json.country_flag}></img><h2 class="geo_loc">${json.country_name}</h2>`;
             country = json.country_name;
         }
-        clogitem[0].innerHTML = output;
+        statuslog[0].innerHTML = output;
     };
 
     function autoConfirmTerms() {
@@ -143,59 +143,59 @@
     }
 
     // Interface Stuff
-    let socialbuttons = document.getElementById('sharebuttons');
+    let social_buttons = document.getElementById('sharebuttons');
 
     function deleteSocialButtons() {
-        while (socialbuttons.children.length) {
-            socialbuttons.children[0].remove();
+        while (social_buttons.children.length) {
+            social_buttons.children[0].remove();
         }
         document.getElementById('onlinecount').remove();
     }
-    let logbox_collection = document.getElementsByClassName('logwrapper');
+    let logwrapper = document.getElementsByClassName('logwrapper');
     let videologo = document.getElementById('videologo');
     async function addInterface() {
-        while (!logbox_collection[0]) {
+        while (!logwrapper[0]) {
             await new Promise(res => setTimeout(res, 50));
         }
         // Don't run if the menu or if the status display already exists
-        if (document.querySelector('.buttonmenu')) {
+        if (document.querySelector('.button_menu')) {
             return;
         }
-        let logbox = logbox_collection[0];
+        let log_box = logwrapper[0];
         let menu = document.createElement('menu');
-        menu.className = 'buttonmenu';
+        menu.className = 'button_menu';
         let [submenu1, submenu2] = [0, 0].map(() => {
             let submenu = document.createElement('div');
             menu.appendChild(submenu);
             return submenu;
         });
-        socialbuttons.className = 'otk_statusdisplay';
-        if (!socialbuttons.children.length) {
+        social_buttons.className = 'otk_status_display';
+        if (!social_buttons.children.length) {
             [
-                `User Count: ${usercount}`,
+                `User Count: ${user_count}`,
                 'Last Action:',
                 'Chat Session Length:',
             ].map(text => {
                 let status = document.createElement('p');
                 status.textContent = text;
                 status.style.margin = '1px';
-                socialbuttons.appendChild(status);
+                social_buttons.appendChild(status);
                 return status;
             });
-            socialbuttons.style.marginTop = '-5px';
+            social_buttons.style.marginTop = '-5px';
         }
         let [
-            pbcat,
-            addipb,
-            clearipb,
-            cbcat,
-            addcblacklist,
-            clearcblacklist,
-            displaycblacklist,
-            misccat,
-            enterapi,
-            togglegeo,
-            toggleb,
+            ip_blacklist_category,
+            add_ip_blacklist,
+            clear_ip_blacklist,
+            country_blacklist_category,
+            add_country_blacklist,
+            clear_country_blacklist,
+            display_country_blacklist,
+            misc_category,
+            enter_api,
+            toggle_geo,
+            toggle_blacklist,
             a_reroll,
             version,
         ] = [
@@ -227,69 +227,69 @@
                 return button;
             }
         });
-        addipb.onclick = addToIPBlacklist;
-        clearipb.onclick = function () {
-            localStorage.setItem('ipblacklist', '');
+        add_ip_blacklist.onclick = addToIPBlacklist;
+        clear_ip_blacklist.onclick = function () {
+            localStorage.setItem('ip_blacklist', '');
             ip = '';
             console.log('Cleared IP Blacklist!');
         };
-        toggleb.onclick = function () {
-            if (blackliststopped) {
-                blackliststopped = false;
+        toggle_blacklist.onclick = function () {
+            if (blacklist_stopped) {
+                blacklist_stopped = false;
                 console.log('Enabled blacklist!');
-                toggleb.className = 'buttons enabled';
-                toggleb.textContent = 'Blacklist Enabled';
+                toggle_blacklist.className = 'buttons enabled';
+                toggle_blacklist.textContent = 'Blacklist Enabled';
             } else {
-                blackliststopped = true;
+                blacklist_stopped = true;
                 console.log('Disabled blacklist!');
-                toggleb.className = 'buttons disabled';
-                toggleb.textContent = 'Blacklist Disabled';
+                toggle_blacklist.className = 'buttons disabled';
+                toggle_blacklist.textContent = 'Blacklist Disabled';
             }
         };
-        enterapi.onclick = function () {
-            let apikey = prompt(
+        enter_api.onclick = function () {
+            let api_key = prompt(
                 'Enter API key from https://app.ipgeolocation.io/'
             );
-            if (!apikey) {
+            if (!api_key) {
                 return;
             }
-            localStorage.setItem('apikey', apikey);
+            localStorage.setItem('api_key', api_key);
         };
-        addcblacklist.onclick = addToCountryBlacklist;
-        clearcblacklist.onclick = function () {
-            localStorage.setItem('cblacklist', '');
+        add_country_blacklist.onclick = addToCountryBlacklist;
+        clear_country_blacklist.onclick = function () {
+            localStorage.setItem('country_blacklist', '');
             country = '';
             console.log('Cleared Country Blacklist!');
         };
-        displaycblacklist.onclick = function () {
-            window.alert(JSON.parse(localStorage.cblacklist));
+        display_country_blacklist.onclick = function () {
+            window.alert(JSON.parse(localStorage.country_blacklist));
         };
-        togglegeo.onclick = function () {
-            if (geoturnoff) {
-                geoturnoff = false;
+        toggle_geo.onclick = function () {
+            if (geo_turnoff) {
+                geo_turnoff = false;
                 console.log('Enabled geo location features!');
-                togglegeo.className = 'buttons enabled';
-                togglegeo.textContent = 'Geolocation Enabled';
+                toggle_geo.className = 'buttons enabled';
+                toggle_geo.textContent = 'Geolocation Enabled';
             } else {
-                geoturnoff = true;
+                geo_turnoff = true;
                 console.log('Disabled geo location features!');
-                togglegeo.className = 'buttons disabled';
-                togglegeo.textContent = 'Geolocation Disabled';
+                toggle_geo.className = 'buttons disabled';
+                toggle_geo.textContent = 'Geolocation Disabled';
             }
         };
-        if (geoturnoff) {
-            togglegeo.className = 'buttons disabled';
-            togglegeo.textContent = 'Geolocation Disabled';
+        if (geo_turnoff) {
+            toggle_geo.className = 'buttons disabled';
+            toggle_geo.textContent = 'Geolocation Disabled';
         } else {
-            togglegeo.className = 'buttons enabled';
-            togglegeo.textContent = 'Geolocation Enabled';
+            toggle_geo.className = 'buttons enabled';
+            toggle_geo.textContent = 'Geolocation Enabled';
         }
-        if (blackliststopped) {
-            toggleb.className = 'buttons disabled';
-            toggleb.textContent = 'Blacklist Disabled';
+        if (blacklist_stopped) {
+            toggle_blacklist.className = 'buttons disabled';
+            toggle_blacklist.textContent = 'Blacklist Disabled';
         } else {
-            toggleb.className = 'buttons enabled';
-            toggleb.textContent = 'Blacklist Enabled';
+            toggle_blacklist.className = 'buttons enabled';
+            toggle_blacklist.textContent = 'Blacklist Enabled';
         }
         if (auto_reroll) {
             a_reroll.className = 'buttons enabled';
@@ -313,14 +313,14 @@
         };
         version.classList.add('otk_version');
         submenu2.appendChild(version);
-        logbox.appendChild(menu);
+        log_box.appendChild(menu);
     }
     // Auto Reroll
     function checkDisconnect(element) {
         if (element.textContent.includes('disconnected')) {
             if (auto_reroll) {
                 console.log('Rerolling!');
-                startstop();
+                start_stop();
                 return false;
             }
         } else {
@@ -330,10 +330,9 @@
     }
     // Chat Session Length
     let disconnectbtn = document.getElementsByClassName('disconnectbtn');
-    let statuslog = document.getElementsByClassName('statuslog');
     function secondCounter() {
         if (!auto_reroll) {
-            socialbuttons.children[2].textContent = '';
+            social_buttons.children[2].textContent = '';
             return;
         }
         if (
@@ -341,22 +340,23 @@
                 .slice(-3)
                 .some(x => x.textContent.includes('disconnected'))
         ) {
-            orgsecs += 1;
+            chat_time += 1;
         }
         if (!disconnectbtn[0]) {
-            orgsecs = 0;
+            chat_time = 0;
         }
-        if (orgsecs == 0) {
-            socialbuttons.children[2].textContent = `Chat Session Length: No Session`;
+        if (chat_time == 0) {
+            social_buttons.children[2].textContent = `Chat Session Length: No Session`;
         } else {
-            let minutes = orgsecs >= 60 ? Math.floor(orgsecs / 60) + 'm ' : '';
-            let seconds = orgsecs % 60;
-            socialbuttons.children[2].textContent = `Chat Session Length: ${minutes}${seconds}s`;
+            let minutes =
+                chat_time >= 60 ? Math.floor(chat_time / 60) + 'm ' : '';
+            let seconds = chat_time % 60;
+            social_buttons.children[2].textContent = `Chat Session Length: ${minutes}${seconds}s`;
         }
     }
     // Blacklist Phrase Detection and Auto-Disconnect
 
-    function startstop() {
+    function start_stop() {
         if (
             disconnectbtn[0]?.textContent.split('\n')[0] == 'New' &&
             auto_reroll
@@ -372,7 +372,7 @@
         }
         ip = '';
         country = '';
-        orgsecs = 0;
+        chat_time = 0;
     }
 
     function verify(element) {
@@ -381,7 +381,7 @@
         if (blacklist.exact.indexOf(msg) >= 0) {
             match = 'Exact match';
         } else if (
-            blacklist.startswith.some(element => msg.startsWith(element))
+            blacklist.starts_with.some(element => msg.startsWith(element))
         ) {
             match = 'Starts with';
         } else if (blacklist.includes.some(element => msg.includes(element))) {
@@ -391,9 +391,9 @@
         }
         if (match !== '') {
             console.log(match + ' blacklist phrase detected! Disconnecting!');
-            socialbuttons.children[1].textContent =
+            social_buttons.children[1].textContent =
                 'Last Action: Phrase Blacklist Disconnect';
-            startstop();
+            start_stop();
         }
         return match === '';
     }
@@ -403,10 +403,10 @@
     function check() {
         autoConfirmTerms();
         addInterface();
-        if (socialbuttons.className == 'otk_statusdisplay') {
+        if (social_buttons.className == 'otk_status_display') {
             secondCounter();
         }
-        if (blackliststopped) {
+        if (blacklist_stopped) {
             return;
         }
         let arr = Array.from(strangermsg);

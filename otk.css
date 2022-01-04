@@ -8,7 +8,7 @@
 .sendbtnwrapper {
     border-radius: 0px;
 }
-.geoloc {
+.geo_loc {
     color: black;
     vertical-align: middle;
     display: inline;
@@ -19,7 +19,7 @@
     height: 48px;
     vertical-align: middle;
 }
-.buttonmenu {
+.button_menu {
     display: flex;
     flex-direction: column;
     top: 0;
@@ -29,7 +29,7 @@
     margin: 0;
     padding: 0;
 }
-.buttonmenu > div:nth-child(1) {
+.button_menu > div:nth-child(1) {
     flex-grow: 1;
 }
 .buttons {
@@ -48,7 +48,7 @@
 .otk_version {
     margin-bottom: 0;
 }
-.otk_statusdisplay {
+.otk_status_display {
     font-weight: bold;
 }
 .category {
