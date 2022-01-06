@@ -358,7 +358,7 @@
 
     function start_stop() {
         if (
-            disconnectbtn[0]?.textContent.split('\n')[0] == 'New' &&
+            disconnectbtn[0]?.textContent.startsWith("New") &&
             auto_reroll
         ) {
             var amt = 1;
